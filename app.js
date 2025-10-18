@@ -1,23 +1,20 @@
 const home=document.getElementById("view-home");
 const subjectView=document.getElementById("view-subject");
 
-function show(view){
-  [home,subjectView].forEach(v=>v.hidden=true);
-  view.hidden=false;
-}
+function show(v){ [home,subjectView].forEach(x=>x.hidden=true); v.hidden=false; }
 
 function renderHome(){
-  const cards=SUBJECTS.map(s=>`
-    <a class="card" href="#/subject/${s.id}">
-      <div class="title">${s.name}</div>
-      <div class="sub">${s.units.length} unit${s.units.length===1?"": "s"}</div>
+  const tiles=SUBJECTS.map(s=>`
+    <a class="tile" href="#/subject/${s.id}">
+      <span>${s.name}</span>
+      <span class="count">${s.units.length} unit${s.units.length===1?"":"s"}</span>
     </a>
   `).join("");
   home.innerHTML=`
     <div class="toolbar">
-      <span style="color:#6d7b8a;">Choose a subject</span>
+      <span style="color:var(--muted)">Choose a subject</span>
     </div>
-    <div class="grid">${cards}</div>
+    <div class="grid">${tiles}</div>
   `;
   show(home);
 }
@@ -26,21 +23,24 @@ function renderSubject(id){
   const subject=SUBJECTS.find(s=>s.id===id);
   if(!subject){ location.hash="#/"; return; }
 
-  const unitCards = subject.units.length
-    ? subject.units.map(u=>`
+  const units = subject.units.length
+    ? subject.units.map((u,idx)=>`
         <div class="unit">
-          <div class="unit-head">${u.title}</div>
-          <iframe src="${u.embed}" loading="lazy" allowfullscreen></iframe>
+          <div class="head">
+            <div>${u.title}</div>
+            <div class="meta">Unit ${idx+1}</div>
+          </div>
+          <iframe src="${u.embed}" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
       `).join("")
-    : `<div class="card" style="text-align:center;">No units yet for ${subject.name}.</div>`;
+    : `<div class="tile" style="justify-content:center;">No units yet for ${subject.name}.</div>`;
 
   subjectView.innerHTML=`
     <div class="toolbar">
       <a class="linkbtn" href="#/">← Home</a>
       <strong>${subject.name}</strong>
     </div>
-    <div class="units">${unitCards}</div>
+    <div class="units">${units}</div>
   `;
   show(subjectView);
 }

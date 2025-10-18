@@ -9,13 +9,13 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="brand">
+    <a href="#/" class="brand">
       <img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
-      <div>
+      <div class="brand-text">
         <h1>Cardly</h1>
-        <p class="subtitle">Clean, fast, flash cards</p>
+        <p class="tag">Fast, clean study decks</p>
       </div>
-    </div>
+    </a>
   </header>
 
   <main class="container">
@@ -30,7 +30,7 @@
   <script>
     const SUBJECTS = [
       { id: "subject1",  name: "Subject 1",  units: [
-        { title: "Unit 1", embed: '<iframe src="https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" height="500" width="100%" style="border:0"></iframe>' }
+        { title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" }
       ]},
       { id: "subject2",  name: "Subject 2",  units: [] },
       { id: "subject3",  name: "Subject 3",  units: [] },
