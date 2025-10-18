@@ -24,22 +24,29 @@ body {
   padding: 40px 16px 20px;
 }
 .logo {
-  width: 60px;
-  height: 60px;
+  width: 110px;  /* bigger logo */
+  height: 110px;
   margin-right: 10px;
   vertical-align: middle;
+  border-radius: 12px;
+  background: #0b1c32;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
 }
+
 .brand {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 10px;
-  font-size: 28px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: 800;
 }
+
 .subtitle {
-  margin-top: 8px;
+  margin-top: 12px;
   color: var(--muted);
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 /* Container */
