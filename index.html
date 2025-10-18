@@ -25,12 +25,17 @@
   </footer>
 
   <!-- Modal for Quizlet popup -->
-  <div id="quizlet-modal" class="modal" hidden>
-    <div class="modal-content">
-      <button class="close-btn" id="close-modal">×</button>
-      <iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
+  <!-- Modal for Quizlet popup -->
+<div id="quizlet-modal" class="modal" hidden>
+  <div class="modal-content">
+    <div class="modal-header">
+      <span id="modal-title">Flashcards</span>
+      <button class="close-btn" id="close-modal" aria-label="Close">×</button>
     </div>
+    <iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
   </div>
+</div>
+
 
   <script>
     const SUBJECTS = [
