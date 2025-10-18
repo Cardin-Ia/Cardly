@@ -1,143 +1,46 @@
-:root {
-  --bg: #0b1c32;
-  --card: #132b4a;
-  --card-hover: #18365b;
-  --text: #ffffff;
-  --muted: #9cb4d6;
-  --accent: #6bb3ff;
-  --border: #27466e;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cardly</title>
+  <link rel="icon" href="assets/cardly-logo.png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
+      <h1>Cardly</h1>
+    </div>
+    <p class="subtitle">A simple, beautiful way to study smarter</p>
+  </header>
 
-* { box-sizing: border-box; }
+  <main class="container">
+    <section id="view-home" class="view"></section>
+    <section id="view-subject" class="view" hidden></section>
+  </main>
 
-body {
-  margin: 0;
-  font-family: "Inter", system-ui, -apple-system, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-}
+  <footer class="site-footer">
+    <a href="#/" class="home-link">← Back to Home</a>
+  </footer>
 
-/* Header */
-.site-header {
-  text-align: center;
-  padding: 40px 16px 20px;
-}
-.logo {
-  width: 36px;
-  height: 36px;
-  margin-right: 10px;
-  vertical-align: middle;
-}
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 28px;
-  font-weight: 700;
-}
-.subtitle {
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: 15px;
-}
-
-/* Container */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0 16px 100px;
-  text-align: center;
-}
-
-/* Home grid */
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
-}
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 30px;
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 600;
-  font-size: 18px;
-  letter-spacing: 0.3px;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-.card:hover {
-  background: var(--card-hover);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-}
-
-/* Subject view */
-.toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 10px;
-  margin-bottom: 24px;
-}
-.btn {
-  padding: 10px 16px;
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  color: var(--text);
-  cursor: pointer;
-  text-decoration: none;
-  font-weight: 600;
-}
-.btn:hover {
-  background: var(--card-hover);
-}
-
-/* Units (Quizlet Embeds) */
-.units {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-  margin-bottom: 60px;
-}
-.unit {
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--card);
-}
-.unit-title {
-  font-size: 22px;
-  font-weight: 700;
-  text-align: left;
-  padding: 16px 20px;
-  background: var(--card-hover);
-  border-bottom: 1px solid var(--border);
-}
-.unit iframe {
-  width: 100%;
-  height: 90vh; /* full height view */
-  border: 0;
-  display: block;
-}
-
-/* Footer */
-.site-footer {
-  text-align: center;
-  color: var(--muted);
-  padding: 20px 0 40px;
-}
-.home-link {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 600;
-}
-.home-link:hover {
-  text-decoration: underline;
-}
+  <script>
+    const SUBJECTS = [
+      { id: "subject1",  name: "Subject 1",  units: [
+        { title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" }
+      ]},
+      { id: "subject2", name: "Subject 2", units: [] },
+      { id: "subject3", name: "Subject 3", units: [] },
+      { id: "subject4", name: "Subject 4", units: [] },
+      { id: "subject5", name: "Subject 5", units: [] },
+      { id: "subject6", name: "Subject 6", units: [] },
+      { id: "subject7", name: "Subject 7", units: [] },
+      { id: "subject8", name: "Subject 8", units: [] },
+      { id: "subject9", name: "Subject 9", units: [] },
+      { id: "subject10", name: "Subject 10", units: [] }
+    ];
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
