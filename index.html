@@ -4,16 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Cardly</title>
-  <link rel="icon" href="assets/cardly-logo.png" />
+  <link rel="icon" href="assets/cardly-favicon.png" />
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
-    </div>
-    <p class="subtitle">Flashcard sets made my Cardin Ia</p>
-  </header>
+  <!-- centered logo + tagline -->
+  <div class="hero">
+    <img src="assets/cardly-logo.png" alt="Cardly logo" class="hero-logo">
+    <h1 class="hero-title">Cardly</h1>
+    <p class="hero-sub">Flashcard sets made by Cardin Ia</p>
+  </div>
 
   <main class="container">
     <section id="view-home" class="view"></section>
@@ -26,7 +27,7 @@
 
   <script>
     const SUBJECTS = [
-      { id: "subject1",  name: "Subject 1",  units: [
+      { id: "subject1", name: "Subject 1", units: [
         { title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" }
       ]},
       { id: "subject2", name: "Subject 2", units: [] },
