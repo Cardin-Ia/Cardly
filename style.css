@@ -18,6 +18,11 @@ body {
   min-height: 100vh;
 }
 
+/* Header */
+.site-header {
+  text-align: center;
+  padding: 40px 16px 20px;
+}
 .logo {
   width: 36px;
   height: 36px;
