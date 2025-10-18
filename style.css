@@ -149,16 +149,22 @@ body {
   text-decoration: underline;
 }
 
-/* Modal styles */
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
+  background: rgba(0, 0, 0, 0.75);
+  display: none;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .modal-content {
   position: relative;
   width: 90%;
@@ -167,25 +173,35 @@ body {
   background: #0b1c32;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  animation: slideUp 0.25s ease;
 }
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0.8; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
 #quizlet-frame {
   width: 100%;
   height: 100%;
   border: none;
   display: block;
 }
+
 .close-btn {
   position: absolute;
-  top: 10px;
-  right: 14px;
+  top: 12px;
+  right: 16px;
   font-size: 28px;
   color: white;
   background: transparent;
   border: none;
   cursor: pointer;
   z-index: 2;
+  transition: color 0.2s ease;
 }
+
 .close-btn:hover {
   color: var(--accent);
 }

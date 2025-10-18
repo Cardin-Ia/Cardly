@@ -5,34 +5,41 @@ const iframe = document.getElementById("quizlet-frame");
 const closeBtn = document.getElementById("close-modal");
 
 function show(v) {
-  [home, subjectView].forEach(x => x.hidden = true);
+  [home, subjectView].forEach(x => (x.hidden = true));
   v.hidden = false;
 }
 
 function openModal(embedUrl) {
   iframe.src = embedUrl;
-  modal.hidden = false;
+  modal.style.display = "flex"; // visible modal
   document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
-  modal.hidden = true;
+  modal.style.display = "none"; // hide modal
   iframe.src = "";
   document.body.style.overflow = "";
 }
 
+// ensure close button works
 closeBtn.addEventListener("click", closeModal);
+
+// close modal when clicking background
 modal.addEventListener("click", e => {
   if (e.target === modal) closeModal();
 });
 
 function renderHome() {
-  const tiles = SUBJECTS.map(s => `
+  const tiles = SUBJECTS.map(
+    s => `
     <a class="card" href="#/subject/${s.id}">
       ${s.name}
-      <div style="font-size:14px;color:#9cb4d6;margin-top:4px;">${s.units.length} Unit${s.units.length !== 1 ? "s" : ""}</div>
+      <div style="font-size:14px;color:#9cb4d6;margin-top:4px;">
+        ${s.units.length} Unit${s.units.length !== 1 ? "s" : ""}
+      </div>
     </a>
-  `).join("");
+  `
+  ).join("");
 
   home.innerHTML = `
     <h2 style="margin-top:40px;font-weight:700;">Select a Subject</h2>
@@ -43,15 +50,22 @@ function renderHome() {
 
 function renderSubject(id) {
   const subject = SUBJECTS.find(s => s.id === id);
-  if (!subject) { location.hash = "#/"; return; }
+  if (!subject) {
+    location.hash = "#/";
+    return;
+  }
 
   const content = subject.units.length
-    ? subject.units.map(u => `
+    ? subject.units
+        .map(
+          u => `
         <div class="unit" onclick="openModal('${u.embed}')">
           <div class="unit-title">${u.title}</div>
           <p style="color:#9cb4d6;font-size:14px;">Click to open flashcards</p>
         </div>
-      `).join("")
+      `
+        )
+        .join("")
     : `<p style="color:#9cb4d6;font-size:16px;">No units yet for ${subject.name}.</p>`;
 
   subjectView.innerHTML = `
@@ -66,11 +80,20 @@ function renderSubject(id) {
 
 function route() {
   const hash = location.hash.slice(1);
-  if (!hash || hash === "/") { renderHome(); return; }
+  if (!hash || hash === "/") {
+    renderHome();
+    return;
+  }
   const parts = hash.split("/").filter(Boolean);
-  if (parts[0] === "subject" && parts[1]) { renderSubject(parts[1]); return; }
+  if (parts[0] === "subject" && parts[1]) {
+    renderSubject(parts[1]);
+    return;
+  }
   renderHome();
 }
 
 window.addEventListener("hashchange", route);
-route();
+window.addEventListener("DOMContentLoaded", () => {
+  modal.style.display = "none"; // hide modal on load
+  route();
+});
