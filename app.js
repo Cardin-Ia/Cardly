@@ -1,10 +1,30 @@
 const home = document.getElementById("view-home");
 const subjectView = document.getElementById("view-subject");
+const modal = document.getElementById("quizlet-modal");
+const iframe = document.getElementById("quizlet-frame");
+const closeBtn = document.getElementById("close-modal");
 
 function show(v) {
   [home, subjectView].forEach(x => x.hidden = true);
   v.hidden = false;
 }
+
+function openModal(embedUrl) {
+  iframe.src = embedUrl;
+  modal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+  modal.hidden = true;
+  iframe.src = "";
+  document.body.style.overflow = "";
+}
+
+closeBtn.addEventListener("click", closeModal);
+modal.addEventListener("click", e => {
+  if (e.target === modal) closeModal();
+});
 
 function renderHome() {
   const tiles = SUBJECTS.map(s => `
@@ -27,9 +47,9 @@ function renderSubject(id) {
 
   const content = subject.units.length
     ? subject.units.map(u => `
-        <div class="unit">
+        <div class="unit" onclick="openModal('${u.embed}')">
           <div class="unit-title">${u.title}</div>
-          <iframe src="${u.embed}" loading="lazy" allowfullscreen></iframe>
+          <p style="color:#9cb4d6;font-size:14px;">Click to open flashcards</p>
         </div>
       `).join("")
     : `<p style="color:#9cb4d6;font-size:16px;">No units yet for ${subject.name}.</p>`;
