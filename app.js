@@ -1,45 +1,56 @@
 const home = document.getElementById("view-home");
 const subjectView = document.getElementById("view-subject");
+
 const modal = document.getElementById("quizlet-modal");
 const iframe = document.getElementById("quizlet-frame");
 const closeBtn = document.getElementById("close-modal");
+const modalTitle = document.getElementById("modal-title");
 
-function show(v) {
-  [home, subjectView].forEach(x => (x.hidden = true));
-  v.hidden = false;
+
+function show(viewEl) {
+  [home, subjectView].forEach(v => (v.hidden = true));
+  viewEl.hidden = false;
 }
 
-function openModal(embedUrl) {
+function escapeAttr(str = "") {
+  return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function openModal(embedUrl, title = "Flashcards") {
+  modalTitle.textContent = title;
   iframe.src = embedUrl;
-  modal.style.display = "flex"; // visible modal
+  modal.style.display = "flex";
   document.body.style.overflow = "hidden";
 }
 
 function closeModal() {
-  modal.style.display = "none"; // hide modal
-  iframe.src = "";
+  modal.style.display = "none";
+  iframe.src = "";                
   document.body.style.overflow = "";
 }
 
-// ensure close button works
-closeBtn.addEventListener("click", closeModal);
+window.openModal = openModal;
 
-// close modal when clicking background
-modal.addEventListener("click", e => {
+closeBtn.addEventListener("click", closeModal);
+modal.addEventListener("click", (e) => {
   if (e.target === modal) closeModal();
+});
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeModal();
 });
 
 function renderHome() {
-  const tiles = SUBJECTS.map(
-    s => `
-    <a class="card" href="#/subject/${s.id}">
-      ${s.name}
-      <div style="font-size:14px;color:#9cb4d6;margin-top:4px;">
-        ${s.units.length} Unit${s.units.length !== 1 ? "s" : ""}
-      </div>
-    </a>
-  `
-  ).join("");
+  const tiles = SUBJECTS.map((s) => {
+    const count = s.units.length;
+    return `
+      <a class="card" href="#/subject/${s.id}">
+        ${s.name}
+        <div style="font-size:14px;color:#9cb4d6;margin-top:4px;">
+          ${count} Unit${count === 1 ? "" : "s"}
+        </div>
+      </a>
+    `;
+  }).join("");
 
   home.innerHTML = `
     <h2 style="margin-top:40px;font-weight:700;">Select a Subject</h2>
@@ -49,31 +60,31 @@ function renderHome() {
 }
 
 function renderSubject(id) {
-  const subject = SUBJECTS.find(s => s.id === id);
+  const subject = SUBJECTS.find((s) => s.id === id);
   if (!subject) {
     location.hash = "#/";
     return;
   }
 
-  const content = subject.units.length
-    ? subject.units
-        .map(
-          u => `
-        <div class="unit" onclick="openModal('${u.embed}')">
-          <div class="unit-title">${u.title}</div>
-          <p style="color:#9cb4d6;font-size:14px;">Click to open flashcards</p>
-        </div>
-      `
-        )
-        .join("")
-    : `<p style="color:#9cb4d6;font-size:16px;">No units yet for ${subject.name}.</p>`;
+  const unitsHTML = subject.units.length
+    ? subject.units.map((u, i) => {
+        const url = u.embed; // e.g. https://quizlet.com/embed/flashcards/?i=...&x=...
+        const title = u.title ?? `Unit ${i + 1}`;
+        return `
+          <div class="unit" onclick="openModal('${escapeAttr(url)}','${escapeAttr(title)}')">
+            <div class="unit-title">${title}</div>
+            <p style="color:#9cb4d6;font-size:14px;margin:6px 0 0;">Click to open flashcards</p>
+          </div>
+        `;
+      }).join("")
+    : `<p style="color:#9cb4d6;font-size:16px;text-align:center;">No units yet for ${subject.name}.</p>`;
 
   subjectView.innerHTML = `
     <div class="toolbar">
       <a href="#/" class="btn">← Back</a>
-      <h2>${subject.name}</h2>
+      <h2 style="margin:0;">${subject.name}</h2>
     </div>
-    <div class="units">${content}</div>
+    <div class="units">${unitsHTML}</div>
   `;
   show(subjectView);
 }
@@ -92,8 +103,9 @@ function route() {
   renderHome();
 }
 
-window.addEventListener("hashchange", route);
 window.addEventListener("DOMContentLoaded", () => {
-  modal.style.display = "none"; // hide modal on load
+  modal.style.display = "none";
   route();
 });
+
+window.addEventListener("hashchange", route);
