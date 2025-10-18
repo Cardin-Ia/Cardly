@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cardly</title>
+  <link rel="icon" href="assets/cardly-favicon.png" sizes="any" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
+      <div>
+        <h1>Cardly</h1>
+        <p class="subtitle">Clean, fast, flash cards</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="view-home" class="view"></section>
+    <section id="view-subject" class="view" hidden></section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="#/" class="home-link">Home</a>
+  </footer>
+
+  <script>
+    const SUBJECTS = [
+      { id: "subject1",  name: "Subject 1",  units: [
+        { title: "Unit 1", embed: 'https://quizlet.com/1092983867/match/embed?i=3ps4im&x=1jj1' }
+      ]},
+      { id: "subject2",  name: "Subject 2",  units: [] },
+      { id: "subject3",  name: "Subject 3",  units: [] },
+      { id: "subject4",  name: "Subject 4",  units: [] },
+      { id: "subject5",  name: "Subject 5",  units: [] },
+      { id: "subject6",  name: "Subject 6",  units: [] },
+      { id: "subject7",  name: "Subject 7",  units: [] },
+      { id: "subject8",  name: "Subject 8",  units: [] },
+      { id: "subject9",  name: "Subject 9",  units: [] },
+      { id: "subject10", name: "Subject 10", units: [] }
+    ];
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
