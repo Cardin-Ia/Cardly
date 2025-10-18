@@ -12,7 +12,7 @@
     <div class="brand">
       <img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
     </div>
-    <p class="subtitle">Flashcard sets made my Cardin Ia</p>
+    <p class="subtitle">Flashcard sets made by Cardin Ia</p>
   </header>
 
   <main class="container">
@@ -24,20 +24,28 @@
     <a href="#/" class="home-link">← Back to Home</a>
   </footer>
 
+  <!-- Modal for Quizlet popup -->
+  <div id="quizlet-modal" class="modal" hidden>
+    <div class="modal-content">
+      <button class="close-btn" id="close-modal">×</button>
+      <iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
+    </div>
+  </div>
+
   <script>
     const SUBJECTS = [
-      { id: "subject1",  name: "Subject 1",  units: [
-        { title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" }
-      ]},
+      { 
+        id: "subject1", 
+        name: "Subject 1", 
+        units: [
+          { title: "Unit 0", embed: "https://quizlet.com/1077731510/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" }
+        ]
+      },
       { id: "subject2", name: "Subject 2", units: [] },
       { id: "subject3", name: "Subject 3", units: [] },
       { id: "subject4", name: "Subject 4", units: [] },
-      { id: "subject5", name: "Subject 5", units: [] },
-      { id: "subject6", name: "Subject 6", units: [] },
-      { id: "subject7", name: "Subject 7", units: [] },
-      { id: "subject8", name: "Subject 8", units: [] },
-      { id: "subject9", name: "Subject 9", units: [] },
-      { id: "subject10", name: "Subject 10", units: [] }
+      { id: "subject5", name: "Subject 5", units: [] }
     ];
   </script>
   <script src="app.js"></script>
