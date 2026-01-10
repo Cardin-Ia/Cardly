@@ -249,3 +249,32 @@ main.container {
   background: var(--card-hover);
   transform: translateY(-3px);
 }
+
+.ios-guide {
+  margin: 60px auto 0;
+  padding: 0 0 10px;
+  max-width: 950px;
+}
+
+.ios-title {
+  margin: 0 0 8px;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.ios-subtitle {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.ios-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
