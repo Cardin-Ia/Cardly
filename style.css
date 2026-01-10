@@ -280,4 +280,14 @@ main.container {
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
+.quizlet-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.quizlet-link:hover {
+  text-decoration: underline;
+}
 
