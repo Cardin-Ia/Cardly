@@ -251,7 +251,7 @@ main.container {
 }
 
 .ios-guide {
-  margin: 60px auto 0;
+  margin: 40px auto 0;
   padding: 0 0 10px;
   max-width: 950px;
 }
@@ -271,10 +271,13 @@ main.container {
 
 .ios-image {
   width: 100%;
+  max-width: 720px;   
   height: auto;
   display: block;
+  margin: 0 auto;    
   border-radius: 18px;
   border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
+
 
