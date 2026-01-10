@@ -291,3 +291,17 @@ main.container {
   text-decoration: underline;
 }
 
+.subtitle-link {
+  margin-top: 6px;
+}
+
+.quizlet-link {
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.quizlet-link:hover {
+  text-decoration: underline;
+}
