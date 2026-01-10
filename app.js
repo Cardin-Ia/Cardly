@@ -1,15 +1,20 @@
 const home = document.getElementById("view-home");
 const subjectView = document.getElementById("view-subject");
 
+
+const iosGuide = document.getElementById("ios-guide");
+
 const modal = document.getElementById("quizlet-modal");
 const iframe = document.getElementById("quizlet-frame");
 const closeBtn = document.getElementById("close-modal");
 const modalTitle = document.getElementById("modal-title");
 
-
 function show(viewEl) {
   [home, subjectView].forEach(v => (v.hidden = true));
   viewEl.hidden = false;
+
+
+  if (iosGuide) iosGuide.hidden = (viewEl !== home);
 }
 
 function escapeAttr(str = "") {
@@ -25,7 +30,7 @@ function openModal(embedUrl, title = "Flashcards") {
 
 function closeModal() {
   modal.style.display = "none";
-  iframe.src = "";                
+  iframe.src = "";
   document.body.style.overflow = "";
 }
 
@@ -56,6 +61,7 @@ function renderHome() {
     <h2 style="margin-top:40px;font-weight:700;">Select a Subject</h2>
     <div class="grid">${tiles}</div>
   `;
+
   show(home);
 }
 
@@ -68,7 +74,7 @@ function renderSubject(id) {
 
   const unitsHTML = subject.units.length
     ? subject.units.map((u, i) => {
-        const url = u.embed; // e.g. https://quizlet.com/embed/flashcards/?i=...&x=...
+        const url = u.embed;
         const title = u.title ?? `Unit ${i + 1}`;
         return `
           <div class="unit" onclick="openModal('${escapeAttr(url)}','${escapeAttr(title)}')">
@@ -86,6 +92,7 @@ function renderSubject(id) {
     </div>
     <div class="units">${unitsHTML}</div>
   `;
+
   show(subjectView);
 }
 
@@ -95,11 +102,13 @@ function route() {
     renderHome();
     return;
   }
+
   const parts = hash.split("/").filter(Boolean);
   if (parts[0] === "subject" && parts[1]) {
     renderSubject(parts[1]);
     return;
   }
+
   renderHome();
 }
 
