@@ -229,7 +229,7 @@ body {
   border: 1px solid var(--border);
   border-radius: 18px;
   padding: 24px;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   transition: 0.2s;
 }
