@@ -9,7 +9,7 @@ const modalTitle = document.getElementById("modal-title");
 const themeRandomizer = document.getElementById("theme-randomizer");
 
 function show(viewEl) {
-  [home, subjectView].forEach(v => (v.hidden = true));
+  [home, subjectView].forEach((v) => (v.hidden = true));
   viewEl.hidden = false;
 
   if (iosGuide) iosGuide.hidden = viewEl !== home;
@@ -149,7 +149,7 @@ function renderHome() {
   }).join("");
 
   home.innerHTML = `
-    <h2 style="margin-top:40px;font-weight:700;">Select a Subject</h2>
+    <h2 style="margin-top:40px;font-weight:800;color:var(--accent);">Select a Subject</h2>
     <div class="grid">${tiles}</div>
   `;
 
@@ -167,7 +167,7 @@ function renderSubject(id) {
   const unitsHTML = subject.units.length
     ? subject.units.map((u, i) => {
         const url = u.embed;
-        const title = u.title ?? `Unit ${i + 1}`;
+        const title = u.title ?? \`Unit ${i + 1}\`;
         return `
           <div class="unit" onclick="openModal('${escapeAttr(url)}','${escapeAttr(title)}')">
             <div class="unit-title">${title}</div>
@@ -180,7 +180,7 @@ function renderSubject(id) {
   subjectView.innerHTML = `
     <div class="toolbar">
       <a href="#/" class="btn">← Back</a>
-      <h2 style="margin:0;">${subject.name}</h2>
+      <h2 style="margin:0;color:var(--accent);font-weight:800;">${subject.name}</h2>
     </div>
     <div class="units">${unitsHTML}</div>
   `;
