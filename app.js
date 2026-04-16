@@ -76,6 +76,7 @@ function hslToHex(h, s, l) {
 function generateTheme() {
   const hue = randomInt(0, 359);
   const accentHue = (hue + randomInt(120, 220)) % 360;
+  const titleHue = (accentHue + randomInt(-35, 35) + 360) % 360;
 
   const bgLightness = randomInt(9, 16);
   const cardLightness = clamp(bgLightness + randomInt(7, 11), 18, 30);
@@ -84,6 +85,7 @@ function generateTheme() {
 
   const saturation = randomInt(35, 70);
   const accentSaturation = randomInt(70, 95);
+  const titleSaturation = randomInt(75, 100);
 
   return {
     bg: hslToHex(hue, saturation, bgLightness),
@@ -92,7 +94,8 @@ function generateTheme() {
     text: hslToHex(hue, 35, 96),
     muted: hslToHex(hue, 22, 74),
     accent: hslToHex(accentHue, accentSaturation, randomInt(60, 72)),
-    border: hslToHex(hue, Math.max(25, saturation - 10), borderLightness),
+    titleColor: hslToHex(titleHue, titleSaturation, randomInt(58, 72)),
+    border: hslToHex(hue, Math.max(25, saturation - 10), borderLightness)
   };
 }
 
@@ -104,6 +107,7 @@ function applyTheme(theme) {
   root.style.setProperty("--text", theme.text);
   root.style.setProperty("--muted", theme.muted);
   root.style.setProperty("--accent", theme.accent);
+  root.style.setProperty("--title-color", theme.titleColor);
   root.style.setProperty("--border", theme.border);
 }
 
@@ -115,6 +119,7 @@ function resetTheme() {
   root.style.removeProperty("--text");
   root.style.removeProperty("--muted");
   root.style.removeProperty("--accent");
+  root.style.removeProperty("--title-color");
   root.style.removeProperty("--border");
 }
 
@@ -169,7 +174,7 @@ function renderHome() {
   }).join("");
 
   home.innerHTML = `
-   <h2 style="margin-top:40px;font-weight:800;color:var(--title-color);">Select a Subject</h2>
+    <h2 style="margin-top:40px;font-weight:800;color:var(--title-color);">Select a Subject</h2>
     <div class="grid">${tiles}</div>
   `;
 
@@ -202,7 +207,7 @@ function renderSubject(id) {
   subjectView.innerHTML = `
     <div class="toolbar">
       <a href="#/" class="btn">← Back</a>
-     <h2 style="margin:0;color:var(--title-color);font-weight:800;">${subject.name}</h2>
+      <h2 style="margin:0;color:var(--title-color);font-weight:800;">${subject.name}</h2>
     </div>
     <div class="units">${unitsHTML}</div>
   `;
