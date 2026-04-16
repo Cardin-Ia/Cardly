@@ -53,10 +53,8 @@ function hslToHex(h, s, l) {
     r = c; g = 0; b = x;
   }
 
-  const toHex = (n) => {
-    const hex = Math.round((n + m) * 255).toString(16).padStart(2, "0");
-    return hex;
-  };
+  const toHex = (n) =>
+    Math.round((n + m) * 255).toString(16).padStart(2, "0");
 
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
@@ -93,22 +91,21 @@ function applyTheme(theme) {
   root.style.setProperty("--muted", theme.muted);
   root.style.setProperty("--accent", theme.accent);
   root.style.setProperty("--border", theme.border);
-  localStorage.setItem("cardly-theme", JSON.stringify(theme));
+}
+
+function resetTheme() {
+  const root = document.documentElement;
+  root.style.removeProperty("--bg");
+  root.style.removeProperty("--card");
+  root.style.removeProperty("--card-hover");
+  root.style.removeProperty("--text");
+  root.style.removeProperty("--muted");
+  root.style.removeProperty("--accent");
+  root.style.removeProperty("--border");
 }
 
 function randomTheme() {
   applyTheme(generateTheme());
-}
-
-function loadSavedTheme() {
-  try {
-    const saved = localStorage.getItem("cardly-theme");
-    if (saved) {
-      applyTheme(JSON.parse(saved));
-    }
-  } catch {
-    // ignore bad saved data
-  }
 }
 
 function openModal(embedUrl, title = "Flashcards") {
@@ -211,7 +208,7 @@ function route() {
 
 window.addEventListener("DOMContentLoaded", () => {
   modal.style.display = "none";
-  loadSavedTheme();
+  resetTheme();
   route();
 });
 
