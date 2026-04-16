@@ -8,72 +8,80 @@ const closeBtn = document.getElementById("close-modal");
 const modalTitle = document.getElementById("modal-title");
 const themeRandomizer = document.getElementById("theme-randomizer");
 
-const THEMES = [
-  {
-    bg: "#0b1c32",
-    card: "#132b4a",
-    cardHover: "#18365b",
-    text: "#ffffff",
-    muted: "#9cb4d6",
-    accent: "#6bb3ff",
-    border: "#27466e"
-  },
-  {
-    bg: "#1a1026",
-    card: "#2a183d",
-    cardHover: "#382052",
-    text: "#fff7ff",
-    muted: "#cdb6dd",
-    accent: "#ff7ad9",
-    border: "#53306e"
-  },
-  {
-    bg: "#0d1f17",
-    card: "#163327",
-    cardHover: "#1d4433",
-    text: "#f4fff8",
-    muted: "#a8cdb8",
-    accent: "#5ee0a0",
-    border: "#2d5f49"
-  },
-  {
-    bg: "#21140d",
-    card: "#382117",
-    cardHover: "#4b2b1d",
-    text: "#fff8f3",
-    muted: "#d9b9a3",
-    accent: "#ff9b5e",
-    border: "#6b3f2b"
-  },
-  {
-    bg: "#111827",
-    card: "#1f2937",
-    cardHover: "#2d3748",
-    text: "#f9fafb",
-    muted: "#b6c2d1",
-    accent: "#60a5fa",
-    border: "#3f4c61"
-  },
-  {
-    bg: "#1b1020",
-    card: "#31193a",
-    cardHover: "#43214f",
-    text: "#fffaff",
-    muted: "#d1b6d9",
-    accent: "#c084fc",
-    border: "#5d3570"
-  }
-];
-
 function show(viewEl) {
   [home, subjectView].forEach(v => (v.hidden = true));
   viewEl.hidden = false;
 
-  if (iosGuide) iosGuide.hidden = (viewEl !== home);
+  if (iosGuide) iosGuide.hidden = viewEl !== home;
 }
 
 function escapeAttr(str = "") {
   return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function hslToHex(h, s, l) {
+  s /= 100;
+  l /= 100;
+
+  const c = (1 - Math.abs(2 * l - 1)) * s;
+  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+  const m = l - c / 2;
+
+  let r = 0;
+  let g = 0;
+  let b = 0;
+
+  if (h >= 0 && h < 60) {
+    r = c; g = x; b = 0;
+  } else if (h < 120) {
+    r = x; g = c; b = 0;
+  } else if (h < 180) {
+    r = 0; g = c; b = x;
+  } else if (h < 240) {
+    r = 0; g = x; b = c;
+  } else if (h < 300) {
+    r = x; g = 0; b = c;
+  } else {
+    r = c; g = 0; b = x;
+  }
+
+  const toHex = (n) => {
+    const hex = Math.round((n + m) * 255).toString(16).padStart(2, "0");
+    return hex;
+  };
+
+  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+}
+
+function generateTheme() {
+  const hue = randomInt(0, 359);
+  const accentHue = (hue + randomInt(120, 220)) % 360;
+
+  const bgLightness = randomInt(9, 16);
+  const cardLightness = clamp(bgLightness + randomInt(7, 11), 18, 30);
+  const hoverLightness = clamp(cardLightness + randomInt(4, 7), 24, 38);
+  const borderLightness = clamp(cardLightness + randomInt(8, 14), 28, 46);
+
+  const saturation = randomInt(35, 70);
+  const accentSaturation = randomInt(70, 95);
+
+  return {
+    bg: hslToHex(hue, saturation, bgLightness),
+    card: hslToHex(hue, saturation, cardLightness),
+    cardHover: hslToHex(hue, saturation, hoverLightness),
+    text: hslToHex(hue, 35, 96),
+    muted: hslToHex(hue, 22, 74),
+    accent: hslToHex(accentHue, accentSaturation, randomInt(60, 72)),
+    border: hslToHex(hue, Math.max(25, saturation - 10), borderLightness)
+  };
 }
 
 function applyTheme(theme) {
@@ -89,34 +97,15 @@ function applyTheme(theme) {
 }
 
 function randomTheme() {
-  let currentTheme = null;
-
-  try {
-    const current = localStorage.getItem("cardly-theme");
-    currentTheme = current ? JSON.parse(current) : null;
-  } catch {
-    currentTheme = null;
-  }
-
-  let choices = THEMES;
-
-  if (currentTheme) {
-    choices = THEMES.filter(
-      (t) =>
-        t.bg !== currentTheme.bg ||
-        t.card !== currentTheme.card ||
-        t.accent !== currentTheme.accent
-    );
-  }
-
-  const next = choices[Math.floor(Math.random() * choices.length)];
-  applyTheme(next);
+  applyTheme(generateTheme());
 }
 
 function loadSavedTheme() {
   try {
     const saved = localStorage.getItem("cardly-theme");
-    if (saved) applyTheme(JSON.parse(saved));
+    if (saved) {
+      applyTheme(JSON.parse(saved));
+    }
   } catch {
     // ignore bad saved data
   }
@@ -172,6 +161,7 @@ function renderHome() {
 
 function renderSubject(id) {
   const subject = SUBJECTS.find((s) => s.id === id);
+
   if (!subject) {
     location.hash = "#/";
     return;
