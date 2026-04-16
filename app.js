@@ -40,21 +40,35 @@ function hslToHex(h, s, l) {
   let b = 0;
 
   if (h >= 0 && h < 60) {
-    r = c; g = x; b = 0;
+    r = c;
+    g = x;
+    b = 0;
   } else if (h < 120) {
-    r = x; g = c; b = 0;
+    r = x;
+    g = c;
+    b = 0;
   } else if (h < 180) {
-    r = 0; g = c; b = x;
+    r = 0;
+    g = c;
+    b = x;
   } else if (h < 240) {
-    r = 0; g = x; b = c;
+    r = 0;
+    g = x;
+    b = c;
   } else if (h < 300) {
-    r = x; g = 0; b = c;
+    r = x;
+    g = 0;
+    b = c;
   } else {
-    r = c; g = 0; b = x;
+    r = c;
+    g = 0;
+    b = x;
   }
 
   const toHex = (n) =>
-    Math.round((n + m) * 255).toString(16).padStart(2, "0");
+    Math.round((n + m) * 255)
+      .toString(16)
+      .padStart(2, "0");
 
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
@@ -78,7 +92,7 @@ function generateTheme() {
     text: hslToHex(hue, 35, 96),
     muted: hslToHex(hue, 22, 74),
     accent: hslToHex(accentHue, accentSaturation, randomInt(60, 72)),
-    border: hslToHex(hue, Math.max(25, saturation - 10), borderLightness)
+    border: hslToHex(hue, Math.max(25, saturation - 10), borderLightness),
   };
 }
 
@@ -123,10 +137,16 @@ function closeModal() {
 
 window.openModal = openModal;
 
-closeBtn.addEventListener("click", closeModal);
-modal.addEventListener("click", (e) => {
-  if (e.target === modal) closeModal();
-});
+if (closeBtn) {
+  closeBtn.addEventListener("click", closeModal);
+}
+
+if (modal) {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
+  });
+}
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") closeModal();
 });
@@ -165,16 +185,18 @@ function renderSubject(id) {
   }
 
   const unitsHTML = subject.units.length
-    ? subject.units.map((u, i) => {
-        const url = u.embed;
-        const title = u.title ?? \`Unit ${i + 1}\`;
-        return `
+    ? subject.units
+        .map((u, i) => {
+          const url = u.embed;
+          const title = u.title ?? `Unit ${i + 1}`;
+          return `
           <div class="unit" onclick="openModal('${escapeAttr(url)}','${escapeAttr(title)}')">
             <div class="unit-title">${title}</div>
             <p style="color:var(--muted);font-size:14px;margin:6px 0 0;">Click to open flashcards</p>
           </div>
         `;
-      }).join("")
+        })
+        .join("")
     : `<p style="color:var(--muted);font-size:16px;text-align:center;">No units yet for ${subject.name}.</p>`;
 
   subjectView.innerHTML = `
@@ -207,7 +229,7 @@ function route() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  modal.style.display = "none";
+  if (modal) modal.style.display = "none";
   resetTheme();
   route();
 });
