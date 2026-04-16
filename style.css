@@ -5,7 +5,7 @@
   --text: #ffffff;
   --muted: #9cb4d6;
   --accent: #6bb3ff;
-  --title-color: #39ff14;
+  --title-color: #ffffff;
   --border: #27466e;
 }
 
@@ -67,7 +67,7 @@ body {
 }
 
 .quizlet-link {
-  color: var(--title-color);
+  color: var(--accent);
   text-decoration: none;
   font-weight: 700;
   font-size: 14px;
