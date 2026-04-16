@@ -23,6 +23,32 @@ body {
   text-align: center;
   padding: 40px 16px 20px;
 }
+.theme-randomizer {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #000;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  z-index: 20;
+}
+
+.theme-randomizer:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+.theme-randomizer:active {
+  transform: translateY(0);
+}
+
 .logo {
   width: 110px; 
   height: 110px;
