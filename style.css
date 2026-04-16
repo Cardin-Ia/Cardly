@@ -4,7 +4,7 @@
   --card-hover: #18365b;
   --text: #ffffff;
   --muted: #9cb4d6;
-  --accent: #6bb3ff;
+  --accent: #39ff14;
   --border: #27466e;
 }
 
@@ -68,7 +68,7 @@ body {
 .quizlet-link {
   color: var(--accent);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
 }
 
