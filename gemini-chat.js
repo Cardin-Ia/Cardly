@@ -3,7 +3,7 @@
 
 (function () {
   const API_KEY = "AIzaSyA4SU13VlNrG6HM3IeYa-LiFpSe7kIKVEE";
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
+  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
 
   // ── Inject styles ──────────────────────────────────────────────────────────
   const style = document.createElement("style");
