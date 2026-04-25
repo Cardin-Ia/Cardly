@@ -2,7 +2,7 @@
 // Then add <script src="gemini-chat.js"></script> before </body> in index.html
 
 (function () {
-  const API_KEY = "AIzaSyA4SU13VlNrG6HM3IeYa-LiFpSe7kIKVEE";
+  const API_KEY = "AIzaSyCW-DA72kunFRRMYKcq9rzZnq63aI-nN1Y";
   const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
 
   // ── Inject styles ──────────────────────────────────────────────────────────
