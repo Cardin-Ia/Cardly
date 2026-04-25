@@ -2,8 +2,7 @@
 // Then add <script src="gemini-chat.js"></script> before </body> in index.html
 
 (function () {
-  const API_KEY = "AIzaSyCW-DA72kunFRRMYKcq9rzZnq63aI-nN1Y";
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${API_KEY}`;
+ const API_URL = "https://cardly-gemini.cardin6112008.workers.dev";
 
   // ── Inject styles ──────────────────────────────────────────────────────────
   const style = document.createElement("style");
