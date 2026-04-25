@@ -9,13 +9,12 @@
       position: fixed;
       top: 16px;
       left: 16px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
       background: var(--card, #132b4a);
       border: 1px solid var(--border, #27466e);
-      color: var(--accent, #6bb3ff);
-      font-size: 20px;
+      padding: 0;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -23,10 +22,24 @@
       z-index: 9999;
       box-shadow: 0 4px 14px rgba(0,0,0,0.35);
       transition: transform 0.18s ease, background 0.18s ease;
+      overflow: hidden;
     }
     #gc-toggle:hover {
       background: var(--card-hover, #18365b);
       transform: scale(1.08);
+    }
+    #gc-toggle img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      display: block;
+      border-radius: 8px;
+    }
+    #gc-toggle.is-open img { display: none; }
+    #gc-toggle.is-open::after {
+      content: "✕";
+      font-size: 20px;
+      color: var(--accent, #6bb3ff);
     }
 
     #gc-window {
@@ -204,7 +217,7 @@
   const toggle = document.createElement("button");
   toggle.id = "gc-toggle";
   toggle.setAttribute("aria-label", "Open AI Chat");
-  toggle.innerHTML = `✦`;
+  toggle.innerHTML = `<img src="assets/cardlyai.png" alt="Cardly AI" />`;
 
   const win = document.createElement("div");
   win.id = "gc-window";
@@ -238,7 +251,7 @@
   toggle.addEventListener("click", () => {
     open = !open;
     win.classList.toggle("open", open);
-    toggle.textContent = open ? "✕" : "✦";
+    toggle.classList.toggle("is-open", open);
     if (open) setTimeout(() => inputEl.focus(), 200);
   });
 
@@ -247,7 +260,7 @@
     if (open && !win.contains(e.target) && e.target !== toggle) {
       open = false;
       win.classList.remove("open");
-      toggle.textContent = "✦";
+      toggle.classList.remove("is-open");
     }
   });
 
