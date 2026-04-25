@@ -1,9 +1,6 @@
-// gemini-chat.js — Drop this file into your Cardly project
-// Then add <script src="gemini-chat.js"></script> before </body> in index.html
-
 (function () {
   const API_KEY = "AIzaSyA4SU13VlNrG6HM3IeYa-LiFpSe7kIKVEE";
-  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${API_KEY}`;
+  const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${API_KEY}`;
 
   // ── Inject styles ──────────────────────────────────────────────────────────
   const style = document.createElement("style");
