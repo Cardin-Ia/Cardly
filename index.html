@@ -1,161 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Cardly</title>
-  <link rel="icon" href="assets/cardly-logo.png" />
-  <link rel="stylesheet" href="style.css" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cardly</title>
+<link rel="icon" href="assets/cardly-logo.png" />
+<link rel="stylesheet" href="style.css" />
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/cardly-logo.png.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 </head>
 <body>
- <header class="site-header">
-  <button id="theme-randomizer" class="theme-randomizer" aria-label="Randomize theme">
-    Theme
-  </button>
+<header class="site-header">
+<button id="theme-randomizer" class="theme-randomizer" aria-label="Randomize theme">
+Theme
+</button>
 
-  <div class="brand">
-    <img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
-  </div>
-  <p class="subtitle">Flashcard sets made by Cardin Ia</p>
-  <p class="subtitle subtitle-link">
-    <a
-      href="https://quizlet.com/user/Cardin_5/folders"
-      target="_blank"
-      rel="noopener"
-      class="quizlet-link"
-    >
-      My Quizlet Profile
-    </a>
-  </p>
+<div class="brand">
+<img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
+</div>
+<p class="subtitle">Flashcard sets made by Cardin Ia</p>
+<p class="subtitle subtitle-link">
+<a
+href="https://quizlet.com/user/Cardin_5/folders"
+target="_blank"
+rel="noopener"
+class="quizlet-link"
+>
+My Quizlet Profile
+</a>
+</p>
 </header>
 
-  <main class="container">
-    <section id="view-home" class="view"></section>
-    <section id="view-subject" class="view" hidden></section>
-     <section id="ios-guide" class="ios-guide">
-    <h2 class="ios-title">Add Cardly to your Home Screen on iOS</h2>
-    <p class="ios-subtitle">Safari → Share → Add to Home Screen</p>
-    <img class="ios-image" src="assets/ios1.png" alt="How to add Cardly to Home Screen on iOS">
-  </section>
-  </main>
+<main class="container">
+<section id="view-home" class="view"></section>
+<section id="view-subject" class="view" hidden></section>
+<section id="ios-guide" class="ios-guide">
+<h2 class="ios-title">Add Cardly to your Home Screen on iOS</h2>
+<p class="ios-subtitle">Safari → Share → Add to Home Screen</p>
+<img class="ios-image" src="assets/ios1.png" alt="How to add Cardly to Home Screen on iOS">
+</section>
+</main>
 
 <footer class="site-footer">
-  <div class="container">
-    <a class="home-link" href="#/">← Back to Home</a>
-  </div>
+<div class="container">
+<a class="home-link" href="#/">← Back to Home</a>
+</div>
 </footer>
 
 
-  <!-- Modal for Quizlet popup -->
-  <!-- Modal for Quizlet popup -->
+<!-- Modal for Quizlet popup -->
+<!-- Modal for Quizlet popup -->
 <div id="quizlet-modal" class="modal" hidden>
-  <div class="modal-content">
-    <div class="modal-header">
-      <span id="modal-title">Flashcards</span>
-      <button class="close-btn" id="close-modal" aria-label="Close">×</button>
-    </div>
-    <iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
-  </div>
+<div class="modal-content">
+<div class="modal-header">
+<span id="modal-title">Flashcards</span>
+<button class="close-btn" id="close-modal" aria-label="Close">×</button>
+</div>
+<iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
+</div>
 </div>
 
 
-  <script>
-    const SUBJECTS = [
-      { 
-        id: "subject1", 
-        name: "AP Gov 🏛️", 
-        units: [
-          { title: "Unit 0", embed: "https://quizlet.com/1077731510/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" },
+<script>
+const SUBJECTS = [
+{ 
+id: "subject1", 
+name: "AP Gov 🏛️", 
+units: [
+{ title: "Unit 0", embed: "https://quizlet.com/1077731510/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Unit 2", embed: "https://quizlet.com/1108057859/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Unit 3", embed: "https://quizlet.com/1128237148/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Unit 4 Quest", embed: "https://quizlet.com/1135795722/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Unit 4", embed: "https://quizlet.com/1153060286/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Supreme Court Cases", embed: "https://quizlet.com/1164824214/flashcards/embed?i=3ps4im&x=1jj1" },
+          { title: "Unit 5", embed: "https://quizlet.com/1167356730/flashcards/embed?i=3ps4im&x=1jj1" }
           { title: "Unit 2 (CB Unit 4)", embed: "https://quizlet.com/1108057859/flashcards/embed?i=3ps4im&x=1jj1" },
           { title: "Unit 3 (CB Unit 5)", embed: "https://quizlet.com/1128237148/flashcards/embed?i=3ps4im&x=1jj1" },
           { title: "Unit 4 (CB Unit 2)", embed: "https://quizlet.com/1153060286/flashcards/embed?i=3ps4im&x=1jj1" },
           { title: "Unit 5 (CB Unit 3)", embed: "https://quizlet.com/1167356730/flashcards/embed?i=3ps4im&x=1jj1" },
           { title: "Key Legislation & Portrait of Congress", embed: "https://quizlet.com/1135795722/flashcards/embed?i=3ps4im&x=1jj1" },
           { title: "Supreme Court Cases", embed: "https://quizlet.com/1164824214/flashcards/embed?i=3ps4im&x=1jj1" }
-        ]
-      },
+]
+},
 
-      { id: "subject2", name: "APUSH 🇺🇸", units: [
-        { title: "Period 1", embed: "https://quizlet.com/180807027/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 2", embed: "https://quizlet.com/80460956/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 3", embed: "https://quizlet.com/63933025/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 4", embed: "https://quizlet.com/341208791/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 5", embed: "https://quizlet.com/56956635/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 6", embed: "https://quizlet.com/137105001/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 7", embed: "https://quizlet.com/72767404/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 8", embed: "https://quizlet.com/82196454/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Period 9", embed: "https://quizlet.com/81198891/flashcards/embed?i=3ps4im&x=1jj1" }
-      ] },
-      
-      { id: "subject3", name: "AP Psychology 🧠", units: [
-        { title: "Unit 1: Sleep", embed: "https://quizlet.com/951135789/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 1: Hormones", embed: "https://quizlet.com/935162282/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 1: Neurons, Nervous System, Brain", embed: "https://quizlet.com/951137550/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Drugs & Neurotransmitters", embed: "https://quizlet.com/18005825/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 2", embed: "https://quizlet.com/971236472/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 3", embed: "https://quizlet.com/1094630552/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 4", embed: "https://quizlet.com/1013596920/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 5", embed: "https://quizlet.com/1029614558/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Semester 1 (Diego Made)", embed: "https://quizlet.com/987509389/flashcards/embed?i=3ps4im&x=1jj1" }
-      ] },
+{ id: "subject2", name: "APUSH 🇺🇸", units: [
+{ title: "Period 1", embed: "https://quizlet.com/180807027/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 2", embed: "https://quizlet.com/80460956/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 3", embed: "https://quizlet.com/63933025/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 4", embed: "https://quizlet.com/341208791/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 5", embed: "https://quizlet.com/56956635/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 6", embed: "https://quizlet.com/137105001/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 7", embed: "https://quizlet.com/72767404/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 8", embed: "https://quizlet.com/82196454/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Period 9", embed: "https://quizlet.com/81198891/flashcards/embed?i=3ps4im&x=1jj1" }
+] },
 
-      { id: "subject4", name: "AP Human Geo 🌎", units: [
-        { title: "Unit 1", embed: "https://quizlet.com/722807025/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 2", embed: "https://quizlet.com/736627565/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 3", embed: "https://quizlet.com/747130579/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 4", embed: "https://quizlet.com/758919212/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 5", embed: "https://quizlet.com/767312265/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 6", embed: "https://quizlet.com/776677997/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 7", embed: "https://quizlet.com/788467809/flashcards/embed?i=3ps4im&x=1jj1" }
-      ] },
-      
-      { 
-        id: "subject5", 
-        name: "AP Bio 🧬", 
-        units: [
-          { title: "Unit 1", embed: "https://quizlet.com/1103578283/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 2", embed: "https://quizlet.com/1102277546/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 3", embed: "https://quizlet.com/1122081365/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 4", embed: "https://quizlet.com/1122081603/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 5", embed: "https://quizlet.com/1122081735/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 6", embed: "https://quizlet.com/493099406/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 7", embed: "https://quizlet.com/195904142/flashcards/embed?i=3ps4im&x=1jj1" },
-          { title: "Unit 8", embed: "https://quizlet.com/1167522508/flashcards/embed?i=3ps4im&x=1jj1" }
-        ]
-      },
+{ id: "subject3", name: "AP Psychology 🧠", units: [
+{ title: "Unit 1: Sleep", embed: "https://quizlet.com/951135789/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 1: Hormones", embed: "https://quizlet.com/935162282/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 1: Neurons, Nervous System, Brain", embed: "https://quizlet.com/951137550/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Drugs & Neurotransmitters", embed: "https://quizlet.com/18005825/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 2", embed: "https://quizlet.com/971236472/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 3", embed: "https://quizlet.com/1094630552/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 4", embed: "https://quizlet.com/1013596920/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 5", embed: "https://quizlet.com/1029614558/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Semester 1 (Diego Made)", embed: "https://quizlet.com/987509389/flashcards/embed?i=3ps4im&x=1jj1" }
+] },
 
-       { id: "subject6", name: "APES 🌱", units: [
-        { title: "Unit 1", embed: "https://quizlet.com/47395369/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 2", embed: "https://quizlet.com/427751976/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 3", embed: "https://quizlet.com/443609212/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 4", embed: "https://quizlet.com/465727985/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 5", embed: "https://quizlet.com/464144266/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 6", embed: "https://quizlet.com/503333194/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 7", embed: "https://quizlet.com/503333284/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 8", embed: "https://quizlet.com/494022345/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Unit 9", embed: "https://quizlet.com/392655803/flashcards/embed?i=3ps4im&x=1jj1" }
-      ] },
+{ id: "subject4", name: "AP Human Geo 🌎", units: [
+{ title: "Unit 1", embed: "https://quizlet.com/722807025/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 2", embed: "https://quizlet.com/736627565/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 3", embed: "https://quizlet.com/747130579/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 4", embed: "https://quizlet.com/758919212/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 5", embed: "https://quizlet.com/767312265/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 6", embed: "https://quizlet.com/776677997/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 7", embed: "https://quizlet.com/788467809/flashcards/embed?i=3ps4im&x=1jj1" }
+] },
 
-       { id: "subject7", name: "AP CSP 💻", units: [
-        { title: "Semester 1 Vocab", embed: "https://quizlet.com/865934644/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Semester 2 Voacab", embed: "https://quizlet.com/915563750/flashcards/embed?i=3ps4im&x=1jj1" }
-      ] },
+{ 
+id: "subject5", 
+name: "AP Bio 🧬", 
+units: [
+{ title: "Unit 1", embed: "https://quizlet.com/1103578283/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 2", embed: "https://quizlet.com/1102277546/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 3", embed: "https://quizlet.com/1122081365/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 4", embed: "https://quizlet.com/1122081603/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 5", embed: "https://quizlet.com/1122081735/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 6", embed: "https://quizlet.com/493099406/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 7", embed: "https://quizlet.com/195904142/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 8", embed: "https://quizlet.com/1167522508/flashcards/embed?i=3ps4im&x=1jj1" }
+]
+},
 
-      { id: "subject8", name: "AP Comp Vocab 📝", units: [
-        { title: "Summer Vocab", embed: "https://quizlet.com/945172205/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Syntax", embed: "https://quizlet.com/950176968/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Literary Terms", embed: "https://quizlet.com/962176917/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Vocab 5", embed: "https://quizlet.com/980825727/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Vocab 6", embed: "https://quizlet.com/980125067/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Vocab 7", embed: "https://quizlet.com/994184714/flashcards/embed?i=3ps4im&x=1jj1" },
-        { title: "Vocab 8", embed: "https://quizlet.com/1011921048/flashcards/embed?i=3ps4im&x=1jj1" }
-      ] },
-      
-    ];
-  </script>
+{ id: "subject6", name: "APES 🌱", units: [
+{ title: "Unit 1", embed: "https://quizlet.com/47395369/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 2", embed: "https://quizlet.com/427751976/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 3", embed: "https://quizlet.com/443609212/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 4", embed: "https://quizlet.com/465727985/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 5", embed: "https://quizlet.com/464144266/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 6", embed: "https://quizlet.com/503333194/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 7", embed: "https://quizlet.com/503333284/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 8", embed: "https://quizlet.com/494022345/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Unit 9", embed: "https://quizlet.com/392655803/flashcards/embed?i=3ps4im&x=1jj1" }
+] },
+
+{ id: "subject7", name: "AP CSP 💻", units: [
+{ title: "Semester 1 Vocab", embed: "https://quizlet.com/865934644/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Semester 2 Voacab", embed: "https://quizlet.com/915563750/flashcards/embed?i=3ps4im&x=1jj1" }
+] },
+
+{ id: "subject8", name: "AP Comp Vocab 📝", units: [
+{ title: "Summer Vocab", embed: "https://quizlet.com/945172205/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Syntax", embed: "https://quizlet.com/950176968/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Literary Terms", embed: "https://quizlet.com/962176917/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Vocab 5", embed: "https://quizlet.com/980825727/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Vocab 6", embed: "https://quizlet.com/980125067/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Vocab 7", embed: "https://quizlet.com/994184714/flashcards/embed?i=3ps4im&x=1jj1" },
+{ title: "Vocab 8", embed: "https://quizlet.com/1011921048/flashcards/embed?i=3ps4im&x=1jj1" }
+] },
+
+];
+</script>
+<script src="app.js"></script>
 </body>
 </html>
