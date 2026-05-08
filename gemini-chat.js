@@ -31,8 +31,8 @@
       transform: scale(1.08);
     }
     #gc-toggle img {
-      width: 48px;
-      height: 48px;
+      width: 60px;
+      height: 60px;
       object-fit: contain;
       display: block;
       border-radius: 8px;
@@ -47,7 +47,7 @@
 
     #gc-window {
       position: fixed;
-      top: 68px;
+      top: 88px;
       left: 16px;
       width: 320px;
       max-height: 480px;
