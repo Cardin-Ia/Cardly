@@ -11,8 +11,8 @@
       position: fixed;
       top: 16px;
       left: 16px;
-      width: 52px;
-      height: 52px;
+      width: 82px;
+      height: 82px;
       border-radius: 14px;
       background: var(--card, #132b4a);
       border: 1px solid var(--border, #27466e);
