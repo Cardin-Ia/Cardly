@@ -271,7 +271,7 @@
       const sw = document.createElement("div");
       sw.className = "td-swatch" + (!isRandom && t.id === selectedBgId ? " active" : "");
       sw.innerHTML = `<div class="td-circle" style="background:${t.bg}"></div><div class="td-name">${t.label}</div>`;
-      sw.addEventListener("click", () => { selectedBgId = t.id; applyFromSelections(); });
+      sw.addEventListener("click", (e) => { e.stopPropagation(); selectedBgId = t.id; applyFromSelections(); });
       bgGrid.appendChild(sw);
     });
     panel.appendChild(bgGrid);
@@ -289,7 +289,7 @@
       const sw = document.createElement("div");
       sw.className = "td-swatch" + (!isRandom && a.id === selectedAccentId ? " active" : "");
       sw.innerHTML = `<div class="td-circle" style="background:${a.color}"></div><div class="td-name">${a.label}</div>`;
-      sw.addEventListener("click", () => { selectedAccentId = a.id; applyFromSelections(); });
+      sw.addEventListener("click", (e) => { e.stopPropagation(); selectedAccentId = a.id; applyFromSelections(); });
       acGrid.appendChild(sw);
     });
     panel.appendChild(acGrid);
@@ -326,7 +326,7 @@
     const randBtn = document.createElement("button");
     randBtn.id = "td-random-btn";
     randBtn.textContent = "✦ Randomize";
-    randBtn.addEventListener("click", () => {
+    randBtn.addEventListener("click", (e) => { e.stopPropagation();
       randomVars = generateRandomVars();
       isRandom   = true;
       applyRandom(randomVars);
