@@ -31,33 +31,33 @@
   ];
 
   // ── Accent colors (shared for every background) ────────────────────────────
- const ACCENT_COLORS = [
-  { id: "white",    label: "White",   color: "#ffffff", title: "#ffffff" },
-  { id: "black",    label: "Black",   color: "#1a1a1a", title: "#444444" },
-  { id: "sky",      label: "Sky",     color: "#6bb3ff", title: "#6bb3ff" },
-  { id: "cyan",     label: "Cyan",    color: "#22d3ee", title: "#22d3ee" },
-  { id: "teal",     label: "Teal",    color: "#2dd4bf", title: "#2dd4bf" },
-  { id: "green",    label: "Green",   color: "#4ade80", title: "#4ade80" },
-  { id: "lime",     label: "Lime",    color: "#a3e635", title: "#a3e635" },
-  { id: "yellow",   label: "Yellow",  color: "#facc15", title: "#facc15" },
-  { id: "amber",    label: "Amber",   color: "#fbbf24", title: "#fbbf24" },
-  { id: "orange",   label: "Orange",  color: "#fb923c", title: "#fb923c" },
-  { id: "coral",    label: "Coral",   color: "#f97316", title: "#f97316" },
-  { id: "red",      label: "Red",     color: "#f87171", title: "#f87171" },
-  { id: "rose",     label: "Rose",    color: "#fb7185", title: "#fb7185" },
-  { id: "pink",     label: "Pink",    color: "#f472b6", title: "#f472b6" },
-  { id: "fuchsia",  label: "Fuchsia", color: "#e879f9", title: "#e879f9" },
-  { id: "purple",   label: "Purple",  color: "#c084fc", title: "#c084fc" },
-  { id: "violet",   label: "Violet",  color: "#a78bfa", title: "#a78bfa" },
-  { id: "indigo",   label: "Indigo",  color: "#818cf8", title: "#818cf8" },
-  { id: "lavender", label: "Lav",     color: "#c7d2fe", title: "#c7d2fe" },
-  { id: "silver",   label: "Silver",  color: "#94a3b8", title: "#94a3b8" },
-  { id: "gray",     label: "Gray",    color: "#9ca3af", title: "#9ca3af" },
-  { id: "brown",    label: "Brown",   color: "#d97706", title: "#d97706" },
-  { id: "gold",     label: "Gold",    color: "#eab308", title: "#eab308" },
-  { id: "emerald",  label: "Emerald", color: "#34d399", title: "#34d399" },
-];
-  
+  const ACCENT_COLORS = [
+    { id: "white",    label: "White",   color: "#ffffff", title: "#ffffff" },
+    { id: "black",    label: "Black",   color: "#1a1a1a", title: "#444444" },
+    { id: "sky",      label: "Sky",     color: "#6bb3ff", title: "#6bb3ff" },
+    { id: "cyan",     label: "Cyan",    color: "#22d3ee", title: "#22d3ee" },
+    { id: "teal",     label: "Teal",    color: "#2dd4bf", title: "#2dd4bf" },
+    { id: "green",    label: "Green",   color: "#4ade80", title: "#4ade80" },
+    { id: "lime",     label: "Lime",    color: "#a3e635", title: "#a3e635" },
+    { id: "yellow",   label: "Yellow",  color: "#facc15", title: "#facc15" },
+    { id: "amber",    label: "Amber",   color: "#fbbf24", title: "#fbbf24" },
+    { id: "orange",   label: "Orange",  color: "#fb923c", title: "#fb923c" },
+    { id: "coral",    label: "Coral",   color: "#f97316", title: "#f97316" },
+    { id: "red",      label: "Red",     color: "#f87171", title: "#f87171" },
+    { id: "rose",     label: "Rose",    color: "#fb7185", title: "#fb7185" },
+    { id: "pink",     label: "Pink",    color: "#f472b6", title: "#f472b6" },
+    { id: "fuchsia",  label: "Fuchsia", color: "#e879f9", title: "#e879f9" },
+    { id: "purple",   label: "Purple",  color: "#c084fc", title: "#c084fc" },
+    { id: "violet",   label: "Violet",  color: "#a78bfa", title: "#a78bfa" },
+    { id: "indigo",   label: "Indigo",  color: "#818cf8", title: "#818cf8" },
+    { id: "lavender", label: "Lav",     color: "#c7d2fe", title: "#c7d2fe" },
+    { id: "silver",   label: "Silver",  color: "#94a3b8", title: "#94a3b8" },
+    { id: "gray",     label: "Gray",    color: "#9ca3af", title: "#9ca3af" },
+    { id: "brown",    label: "Brown",   color: "#d97706", title: "#d97706" },
+    { id: "gold",     label: "Gold",    color: "#eab308", title: "#eab308" },
+    { id: "emerald",  label: "Emerald", color: "#34d399", title: "#34d399" },
+  ];
+
   // ── State (persisted via localStorage) ────────────────────────────────────
   const STORAGE_KEY = "cardly_theme";
 
@@ -118,6 +118,11 @@
   }
 
   // ── Apply theme ────────────────────────────────────────────────────────────
+  function currentBgColor() {
+    if (isRandom) return randomVars["--bg"] || "#000";
+    return BG_THEMES.find(t => t.id === selectedBgId)?.bg || "#000";
+  }
+
   function applyFromSelections() {
     isRandom = false;
     const bg     = BG_THEMES.find(t => t.id === selectedBgId);
@@ -149,6 +154,15 @@
     if (d) d.style.background = color;
   }
 
+  function setButtonOpen(isOpen) {
+    if (isOpen) {
+      btn.innerHTML = `<span style="font-size:15px; line-height:1;">✕</span>`;
+    } else {
+      btn.innerHTML = `<span id="td-btn-dot"></span> Theme`;
+      updateDot(currentBgColor());
+    }
+  }
+
   // ── Styles ─────────────────────────────────────────────────────────────────
   const style = document.createElement("style");
   style.textContent = `
@@ -163,6 +177,7 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.25);
       transition: transform 0.15s, opacity 0.15s;
       display: flex; align-items: center; gap: 7px; font-family: inherit;
+      min-width: 72px; justify-content: center;
     }
     #td-btn:hover { transform: translateY(-1px); opacity: 0.9; }
     #td-btn-dot {
@@ -342,11 +357,14 @@
     open = !open;
     if (open) buildPanel();
     panel.classList.toggle("open", open);
+    setButtonOpen(open);
   });
+
   document.addEventListener("click", e => {
     if (open && !panel.contains(e.target) && e.target !== btn) {
       open = false;
       panel.classList.remove("open");
+      setButtonOpen(false);
     }
   });
 
