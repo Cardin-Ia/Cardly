@@ -11,8 +11,8 @@
       position: fixed;
       top: 16px;
       left: 16px;
-      width: 64px;
-      height: 64px;
+      width: 84px;
+      height: 84px;
       border-radius: 14px;
       background: var(--card, #132b4a);
       border: 1px solid var(--border, #27466e);
@@ -31,8 +31,8 @@
       transform: scale(1.08);
     }
     #gc-toggle img {
-      width: 60px;
-      height: 60px;
+      width: 78px;
+      height: 78px;
       object-fit: contain;
       display: block;
       border-radius: 8px;
@@ -47,7 +47,7 @@
 
     #gc-window {
       position: fixed;
-      top: 88px;
+      top: 98px;
       left: 16px;
       width: 320px;
       max-height: 480px;
