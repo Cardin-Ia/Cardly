@@ -11,8 +11,8 @@
       position: fixed;
       top: 16px;
       left: 16px;
-      width: 82px;
-      height: 82px;
+      width: 64px;
+      height: 64px;
       border-radius: 14px;
       background: var(--card, #132b4a);
       border: 1px solid var(--border, #27466e);
@@ -31,8 +31,8 @@
       transform: scale(1.08);
     }
     #gc-toggle img {
-      width: 38px;
-      height: 38px;
+      width: 48px;
+      height: 48px;
       object-fit: contain;
       display: block;
       border-radius: 8px;
@@ -227,7 +227,7 @@
   win.setAttribute("aria-label", "Gemini Chat");
   win.innerHTML = `
     <div id="gc-header">
-      <div id="gc-header-label"><span></span>Gemini AI</div>
+      <div id="gc-header-label"><span></span>Cardly AI</div>
       <button id="gc-clear" title="Clear chat">Clear</button>
     </div>
     <div id="gc-messages"></div>
