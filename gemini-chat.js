@@ -47,7 +47,7 @@
 
     #gc-window {
       position: fixed;
-      top: 98px;
+      top: 102px;
       left: 16px;
       width: 320px;
       max-height: 480px;
