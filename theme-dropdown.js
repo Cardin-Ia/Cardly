@@ -31,38 +31,50 @@
   ];
 
   // ── Accent colors (shared for every background) ────────────────────────────
-  const ACCENT_COLORS = [
-    { id: "white",    label: "White",   color: "#ffffff", title: "#ffffff" },
-    { id: "black",    label: "Black",   color: "#1a1a1a", title: "#333333" },
-    { id: "sky",      label: "Sky",     color: "#6bb3ff", title: "#bde0ff" },
-    { id: "cyan",     label: "Cyan",    color: "#22d3ee", title: "#a5f3fc" },
-    { id: "teal",     label: "Teal",    color: "#2dd4bf", title: "#ccfbf1" },
-    { id: "green",    label: "Green",   color: "#4ade80", title: "#bbf7d0" },
-    { id: "lime",     label: "Lime",    color: "#a3e635", title: "#ecfccb" },
-    { id: "yellow",   label: "Yellow",  color: "#facc15", title: "#fef9c3" },
-    { id: "amber",    label: "Amber",   color: "#fbbf24", title: "#fef3c7" },
-    { id: "orange",   label: "Orange",  color: "#fb923c", title: "#fed7aa" },
-    { id: "coral",    label: "Coral",   color: "#f97316", title: "#ffedd5" },
-    { id: "red",      label: "Red",     color: "#f87171", title: "#fecaca" },
-    { id: "rose",     label: "Rose",    color: "#fb7185", title: "#ffe4e6" },
-    { id: "pink",     label: "Pink",    color: "#f472b6", title: "#fce7f3" },
-    { id: "fuchsia",  label: "Fuchsia", color: "#e879f9", title: "#fae8ff" },
-    { id: "purple",   label: "Purple",  color: "#c084fc", title: "#f3e8ff" },
-    { id: "violet",   label: "Violet",  color: "#a78bfa", title: "#ede9fe" },
-    { id: "indigo",   label: "Indigo",  color: "#818cf8", title: "#e0e7ff" },
-    { id: "lavender", label: "Lav",     color: "#c7d2fe", title: "#eef2ff" },
-    { id: "silver",   label: "Silver",  color: "#94a3b8", title: "#e2e8f0" },
-    { id: "gray",     label: "Gray",    color: "#6b7280", title: "#d1d5db" },
-    { id: "brown",    label: "Brown",   color: "#d97706", title: "#fef3c7" },
-    { id: "gold",     label: "Gold",    color: "#eab308", title: "#fefce8" },
-    { id: "emerald",  label: "Emerald", color: "#34d399", title: "#d1fae5" },
-  ];
+ const ACCENT_COLORS = [
+  { id: "white",    label: "White",   color: "#ffffff", title: "#ffffff" },
+  { id: "black",    label: "Black",   color: "#1a1a1a", title: "#444444" },
+  { id: "sky",      label: "Sky",     color: "#6bb3ff", title: "#6bb3ff" },
+  { id: "cyan",     label: "Cyan",    color: "#22d3ee", title: "#22d3ee" },
+  { id: "teal",     label: "Teal",    color: "#2dd4bf", title: "#2dd4bf" },
+  { id: "green",    label: "Green",   color: "#4ade80", title: "#4ade80" },
+  { id: "lime",     label: "Lime",    color: "#a3e635", title: "#a3e635" },
+  { id: "yellow",   label: "Yellow",  color: "#facc15", title: "#facc15" },
+  { id: "amber",    label: "Amber",   color: "#fbbf24", title: "#fbbf24" },
+  { id: "orange",   label: "Orange",  color: "#fb923c", title: "#fb923c" },
+  { id: "coral",    label: "Coral",   color: "#f97316", title: "#f97316" },
+  { id: "red",      label: "Red",     color: "#f87171", title: "#f87171" },
+  { id: "rose",     label: "Rose",    color: "#fb7185", title: "#fb7185" },
+  { id: "pink",     label: "Pink",    color: "#f472b6", title: "#f472b6" },
+  { id: "fuchsia",  label: "Fuchsia", color: "#e879f9", title: "#e879f9" },
+  { id: "purple",   label: "Purple",  color: "#c084fc", title: "#c084fc" },
+  { id: "violet",   label: "Violet",  color: "#a78bfa", title: "#a78bfa" },
+  { id: "indigo",   label: "Indigo",  color: "#818cf8", title: "#818cf8" },
+  { id: "lavender", label: "Lav",     color: "#c7d2fe", title: "#c7d2fe" },
+  { id: "silver",   label: "Silver",  color: "#94a3b8", title: "#94a3b8" },
+  { id: "gray",     label: "Gray",    color: "#9ca3af", title: "#9ca3af" },
+  { id: "brown",    label: "Brown",   color: "#d97706", title: "#d97706" },
+  { id: "gold",     label: "Gold",    color: "#eab308", title: "#eab308" },
+  { id: "emerald",  label: "Emerald", color: "#34d399", title: "#34d399" },
+];
+  
+  // ── State (persisted via localStorage) ────────────────────────────────────
+  const STORAGE_KEY = "cardly_theme";
 
-  // ── State ──────────────────────────────────────────────────────────────────
-  let selectedBgId     = "blue";
-  let selectedAccentId = "sky";
-  let isRandom         = false;
-  let randomVars       = {};
+  function loadSaved() {
+    try { const r = localStorage.getItem(STORAGE_KEY); return r ? JSON.parse(r) : null; }
+    catch { return null; }
+  }
+  function saveState() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ bgId: selectedBgId, accentId: selectedAccentId, isRandom, randomVars })); }
+    catch {}
+  }
+
+  const _s             = loadSaved();
+  let selectedBgId     = _s?.bgId     || "blue";
+  let selectedAccentId = _s?.accentId || "sky";
+  let isRandom         = _s?.isRandom || false;
+  let randomVars       = _s?.randomVars || {};
 
   // ── HSL helpers ────────────────────────────────────────────────────────────
   function ri(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
@@ -121,6 +133,7 @@
     r.style.setProperty("--title-color", accent.title);
     r.style.setProperty("--border",      bg.border);
     updateDot(bg.bg);
+    saveState();
     buildPanel();
   }
 
@@ -128,6 +141,7 @@
     const r = document.documentElement;
     Object.entries(vars).forEach(([k, v]) => r.style.setProperty(k, v));
     updateDot(vars["--bg"]);
+    saveState();
   }
 
   function updateDot(color) {
@@ -339,6 +353,12 @@
   document.body.appendChild(btn);
   document.body.appendChild(panel);
 
-  window.addEventListener("DOMContentLoaded", () => { applyFromSelections(); });
+  window.addEventListener("DOMContentLoaded", () => {
+    if (isRandom && Object.keys(randomVars).length) {
+      applyRandom(randomVars);
+    } else {
+      applyFromSelections();
+    }
+  });
 
 })();
