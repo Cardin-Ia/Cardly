@@ -344,11 +344,13 @@ main.container {
   .modal-content {
     margin-top: 80px;
   }
-}
-
-@media (max-width: 768px) {
+  .modal-header {
+    position: relative;
+  }
   .close-btn {
-    margin: 0 auto;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 
