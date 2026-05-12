@@ -339,3 +339,10 @@ main.container {
   display: block;
   background: var(--bg);
 }
+
+@media (max-width: 768px) {
+  .modal-content {
+    margin-top: 80px;
+  }
+}
+
