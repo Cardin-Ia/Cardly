@@ -5,206 +5,52 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Cardly</title>
 <link rel="icon" href="assets/cardly-logo.png" />
-<link rel="stylesheet" href="style.css" />
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/cardly-logo.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-
+<meta name="theme-color" content="#070f1f">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@700;800&family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<header class="site-header">
-<button id="theme-randomizer" class="theme-randomizer" aria-label="Randomize theme">
-Theme
-</button>
-
-<div class="brand">
-<img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" />
-</div>
-<p class="subtitle">Flashcard sets by CHS Grad and UC Berkeley CS Major Cardin Ia</p>
-<p class="subtitle subtitle-link">
-<a
-href="https://quizlet.com/user/Cardin_5/folders"
-target="_blank"
-rel="noopener"
-class="quizlet-link"
->
-My Quizlet Profile
-</a>
-</p>
+<header class="top">
+  <a href="#/" aria-label="Cardly home"><img src="assets/cardly-logo.png" alt="Cardly logo" class="logo" /></a>
+  <div class="search"><input id="search" type="search" placeholder="Search every deck…  press /" autocomplete="off" aria-label="Search decks" /></div>
+  <button id="theme-btn" class="btn" aria-label="Change theme">Theme</button>
+  <div id="theme-pop" class="pop"></div>
 </header>
+<p class="credit">Flashcard sets by CHS Grad and UC Berkeley CS Major Cardin Ia · <a href="https://quizlet.com/user/Cardin_5/folders" target="_blank" rel="noopener">My Quizlet Profile</a></p>
 
 <main class="container">
-<section id="view-home" class="view"></section>
-<section id="view-subject" class="view" hidden></section>
-<section id="ios-guide" class="ios-guide">
-<h2 class="ios-title">Add Cardly to your Home Screen on iOS</h2>
-<p class="ios-subtitle">Safari → Share → Add to Home Screen</p>
-<img class="ios-image" src="assets/ios1.png" alt="How to add Cardly to Home Screen on iOS">
-</section>
+  <section id="view-home"></section>
+  <section id="view-subject" hidden></section>
+  <details id="ios" class="ios">
+    <summary>Add Cardly to your Home Screen on iOS</summary>
+    <p class="muted">Safari → Share → Add to Home Screen</p>
+    <img src="assets/ios1.png" alt="How to add Cardly to Home Screen on iOS" loading="lazy">
+  </details>
 </main>
 
-<footer class="site-footer">
-<div class="container">
-<a class="home-link" href="#/">← Back to Home</a>
+<footer class="foot"><a href="#/">← Back to Home</a></footer>
+
+<div id="quizlet-modal" class="modal">
+  <div class="mc">
+    <div class="mh">
+      <span id="modal-title">Flashcards</span>
+      <span class="mb">
+        <button class="btn" id="prev" aria-label="Previous deck">‹</button>
+        <button class="btn" id="next" aria-label="Next deck">›</button>
+        <button class="btn pri" id="mark">Mark studied</button>
+        <button class="btn" id="close-modal" aria-label="Close">×</button>
+      </span>
+    </div>
+    <iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
+  </div>
 </div>
-</footer>
 
-<!-- Modal for Quizlet popup -->
-<!-- Modal for Quizlet popup -->
-<div id="quizlet-modal" class="modal" hidden>
-<div class="modal-content">
-<div class="modal-header">
-<span id="modal-title">Flashcards</span>
-<button class="close-btn" id="close-modal" aria-label="Close">×</button>
-</div>
-<iframe id="quizlet-frame" src="" allowfullscreen loading="lazy"></iframe>
-</div>
-</div>
-
-
-<script>
-const SUBJECTS = [
-{ 
-id: "subject1", 
-name: "AP Gov 🏛️", 
-units: [
-{ title: "Unit 0", embed: "https://quizlet.com/1077731510/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 1", embed: "https://quizlet.com/1092983867/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2", embed: "https://quizlet.com/1153060286/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3", embed: "https://quizlet.com/1167356730/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4", embed: "https://quizlet.com/1108057859/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5", embed: "https://quizlet.com/1128237148/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Key Legislation & Portrait of Congress", embed: "https://quizlet.com/1135795722/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Supreme Court Cases", embed: "https://quizlet.com/1164824214/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Founding Documents", embed: "https://quizlet.com/1174674442/flashcards/embed?i=3ps4im&x=1jj1" }
-]
-},
-
-{ id: "subject2", name: "APUSH 🇺🇸", units: [
-{ title: "Period 1", embed: "https://quizlet.com/180807027/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 2", embed: "https://quizlet.com/80460956/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 3", embed: "https://quizlet.com/63933025/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 4", embed: "https://quizlet.com/341208791/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 5", embed: "https://quizlet.com/56956635/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 6", embed: "https://quizlet.com/137105001/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 7", embed: "https://quizlet.com/72767404/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 8", embed: "https://quizlet.com/82196454/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Period 9", embed: "https://quizlet.com/81198891/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject3", name: "AP Euro 🇪🇺", units: [
-{ title: "Unit 1: Renaissance and Exploration", embed: "https://quizlet.com/319408003/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2: Age of Reformation", embed: "https://quizlet.com/501137550/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3: Absolutism and Constitutionalism", embed: "https://quizlet.com/343285451/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4: Scientific, Philosophical, and Political Developments", embed: "https://quizlet.com/450902343/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5: Conflict, Crisis, and Reaction in the Late 18th Century", embed: "https://quizlet.com/393875532/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 6: Industrialization and Its Effects", embed: "https://quizlet.com/394156937/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 7: 19th-Century Perspectives and Political Developments", embed: "https://quizlet.com/488385569/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 8: 20th-Century Global Conflicts", embed: "https://quizlet.com/494153809/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 9: Cold War and Contemporary Europe", embed: "https://quizlet.com/395706423/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject4", name: "AP Art History 🎨", units: [
-{ title: "Unit 1: Global Prehistory, 30,000-500 BCE", embed: "https://quizlet.com/149407996/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2: Ancient Mediterranean, 3500 BCE-300CE", embed: "https://quizlet.com/466344457/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3: Early Europe and Colonial Americas, 200-1750 CE", embed: "https://quizlet.com/466505472/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4: Later Europe and Americas, 1750-1980 CE", embed: "https://quizlet.com/466656939/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5: Indigenous Americas, 1000 BCE-1980 CE", embed: "https://quizlet.com/465899073/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 6: Africa, 1100-1980 CE", embed: "https://quizlet.com/465744694/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 7: West and Central Asia, 500 BCE-1980 CE", embed: "https://quizlet.com/466349794/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 8: South, East, and Southeast Asia, 300 BCE-1980 CE ", embed: "https://quizlet.com/466500483/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 9: The Pacific, 700-1980 CE", embed: "https://quizlet.com/465729865/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 10: Global Contemporary, 1980 CE to Present", embed: "https://quizlet.com/465469978/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject5", name: "AP Human Geo 🌎", units: [
-{ title: "Unit 1", embed: "https://quizlet.com/722807025/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2", embed: "https://quizlet.com/736627565/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3", embed: "https://quizlet.com/747130579/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4", embed: "https://quizlet.com/758919212/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5", embed: "https://quizlet.com/767312265/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 6", embed: "https://quizlet.com/776677997/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 7", embed: "https://quizlet.com/788467809/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject6", name: "AP Psychology 🧠", units: [
-{ title: "Unit 1: Sleep", embed: "https://quizlet.com/951135789/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 1: Hormones", embed: "https://quizlet.com/935162282/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 1: Neurons, Nervous System, Brain", embed: "https://quizlet.com/951137550/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Drugs & Neurotransmitters", embed: "https://quizlet.com/18005825/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2", embed: "https://quizlet.com/971236472/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3", embed: "https://quizlet.com/1094630552/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4", embed: "https://quizlet.com/1013596920/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5", embed: "https://quizlet.com/1029614558/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Semester 1 (Diego Made)", embed: "https://quizlet.com/987509389/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject7", name: "AP Chemistry 🧪", units: [
-{ title: "Unit 1: Atomic Structure and Properties", embed: "https://quizlet.com/408003467/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2: Molecular and Ionic Compound Structure and Properties", embed: "https://quizlet.com/408116328/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3: Intermolecular Forces and Properties", embed: "https://quizlet.com/281154314/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4: Chemical Reactions", embed: "https://quizlet.com/427794212/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5: Kinetics", embed: "https://quizlet.com/402693559/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 6: Thermodynamics", embed: "https://quizlet.com/471249234/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 7: Equilibrium", embed: "https://quizlet.com/284047588/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 8: Acids and Bases", embed: "https://quizlet.com/288067158/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 9: Applications of Thermodynamics", embed: "https://quizlet.com/485345033/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ 
-id: "subject8", 
-name: "AP Biology 🧬", 
-units: [
-{ title: "Unit 1", embed: "https://quizlet.com/1103578283/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2", embed: "https://quizlet.com/1102277546/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3", embed: "https://quizlet.com/1122081365/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4", embed: "https://quizlet.com/1122081603/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5", embed: "https://quizlet.com/1122081735/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 6", embed: "https://quizlet.com/493099406/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 7", embed: "https://quizlet.com/195904142/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 8", embed: "https://quizlet.com/1167522508/flashcards/embed?i=3ps4im&x=1jj1" }
-]
-},
-
-{ id: "subject9", name: "APES 🌱", units: [
-{ title: "Unit 1", embed: "https://quizlet.com/47395369/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 2", embed: "https://quizlet.com/427751976/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 3", embed: "https://quizlet.com/443609212/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 4", embed: "https://quizlet.com/465727985/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 5", embed: "https://quizlet.com/464144266/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 6", embed: "https://quizlet.com/503333194/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 7", embed: "https://quizlet.com/503333284/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 8", embed: "https://quizlet.com/494022345/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Unit 9", embed: "https://quizlet.com/392655803/flashcards/embed?i=3ps4im&x=1jj1" },
-]
-},
-
-{ id: "subject10", name: "AP CSP 💻", units: [
-{ title: "Semester 1 Vocab", embed: "https://quizlet.com/865934644/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Semester 2 Voacab", embed: "https://quizlet.com/915563750/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject11", name: "AP Comp/Lang Vocab 📝", units: [
-{ title: "Summer Vocab", embed: "https://quizlet.com/945172205/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Syntax", embed: "https://quizlet.com/950176968/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Literary Terms", embed: "https://quizlet.com/962176917/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Vocab 5", embed: "https://quizlet.com/980825727/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Vocab 6", embed: "https://quizlet.com/980125067/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Vocab 7", embed: "https://quizlet.com/994184714/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Vocab 8", embed: "https://quizlet.com/1011921048/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-{ id: "subject12", name: "AP Lit Vocab 🪶", units: [
-{ title: "Literature Vocab - General", embed: "https://quizlet.com/945172205/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Literature Vocab - Poetry", embed: "https://quizlet.com/950176968/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Literature Unit 1 Vocabulary", embed: "https://quizlet.com/962176917/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Literature Unit 2 Vocabulary", embed: "https://quizlet.com/980825727/flashcards/embed?i=3ps4im&x=1jj1" },
-{ title: "Literature Unit 3 Vocabulary", embed: "https://quizlet.com/1177993606/flashcards/embed?i=3ps4im&x=1jj1" }
-] },
-
-];
-</script>
+<script src="data.js"></script>
 <script src="app.js"></script>
-<script src="theme-dropdown.js"></script>
 <script src="gemini-chat.js"></script>
 </body>
 </html>

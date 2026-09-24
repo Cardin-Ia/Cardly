@@ -1,242 +1,130 @@
-const home = document.getElementById("view-home");
-const subjectView = document.getElementById("view-subject");
-const iosGuide = document.getElementById("ios-guide");
+const $ = (s) => document.querySelector(s);
+const home = $("#view-home"), sub = $("#view-subject"), modal = $("#quizlet-modal"),
+  frame = $("#quizlet-frame"), search = $("#search"), pop = $("#theme-pop");
 
-const modal = document.getElementById("quizlet-modal");
-const iframe = document.getElementById("quizlet-frame");
-const closeBtn = document.getElementById("close-modal");
-const modalTitle = document.getElementById("modal-title");
-const themeRandomizer = document.getElementById("theme-randomizer");
+let S = { done: {}, last: null, theme: null };
+try { S = { ...S, ...JSON.parse(localStorage.getItem("cardly:v2") || "{}") }; } catch (e) {}
+const save = () => { try { localStorage.setItem("cardly:v2", JSON.stringify(S)); } catch (e) {} };
 
-function show(viewEl) {
-  [home, subjectView].forEach((v) => (v.hidden = true));
-  viewEl.hidden = false;
+const key = (s, i) => s.id + ":" + i;
+const hue = (i) => (i * 47 + 205) % 360;
+const title = (u, i) => (u.title || "Unit " + (i + 1)).trim();
+const split = (n) => {
+  const m = n.match(/^(.*?)\s*(\p{Extended_Pictographic}.*)$/u);
+  return m ? { name: m[1], emoji: m[2] } : { name: n, emoji: "📚" };
+};
+const doneIn = (s) => s.units.filter((_, i) => S.done[key(s, i)]).length;
+const ALL = SUBJECTS.flatMap((s, si) => s.units.map((u, i) => ({ s, si, u, i, t: title(u, i) })));
+const find = (k) => ALL.find((a) => key(a.s, a.i) === k);
 
-  if (iosGuide) iosGuide.hidden = viewEl !== home;
+/* ---------- themes ---------- */
+const THEMES = {
+  Midnight: ["#070f1f", "#0f2140", "#15315c", "#6bb3ff", "#a78bfa", "#22406b"],
+  Aurora: ["#08140f", "#0f2a22", "#163a2f", "#5eead4", "#a3e635", "#1f4a3c"],
+  Ember: ["#150a0a", "#2a1414", "#3a1c1c", "#fb923c", "#f43f5e", "#4f2626"],
+  Orchid: ["#120a1f", "#231238", "#301a4d", "#e879f9", "#818cf8", "#412a66"],
+  Slate: ["#0e1116", "#181d26", "#212835", "#93c5fd", "#fbbf24", "#2c3544"],
+  Paper: ["#eef2f9", "#ffffff", "#e4ebf7", "#2563eb", "#7c3aed", "#cfd9ea", "#0f1b33", "#5a6b8c"],
+};
+function applyTheme(a) {
+  const r = document.documentElement;
+  ["--bg", "--card", "--card-hover", "--accent", "--accent2", "--border"].forEach((k, i) => r.style.setProperty(k, a[i]));
+  r.style.setProperty("--text", a[6] || "#f2f6ff");
+  r.style.setProperty("--muted", a[7] || "#8fa8cf");
+  r.toggleAttribute("data-light", !!a[6]);
+  S.theme = a; save();
 }
-
-function escapeAttr(str = "") {
-  return String(str).replace(/\\/g, "\\\\").replace(/'/g, "\\'");
+function shuffleTheme() {
+  const h = (Math.random() * 360) | 0;
+  applyTheme([`hsl(${h} 55% 7%)`, `hsl(${h} 50% 14%)`, `hsl(${h} 50% 20%)`, `hsl(${(h + 150) % 360} 90% 68%)`, `hsl(${(h + 60) % 360} 85% 70%)`, `hsl(${h} 40% 27%)`]);
 }
+pop.innerHTML = Object.entries(THEMES).map(([n, a]) =>
+  `<button class="sw" title="${n}" aria-label="${n} theme" data-t="${n}" style="background:linear-gradient(135deg,${a[3]},${a[4]})"></button>`).join("") +
+  `<button class="sw" id="shuffle" title="Shuffle" aria-label="Random theme">🎲</button>`;
+if (S.theme) applyTheme(S.theme);
 
-function clamp(value, min, max) {
-  return Math.min(max, Math.max(min, value));
-}
-
-function randomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function hslToHex(h, s, l) {
-  s /= 100;
-  l /= 100;
-
-  const c = (1 - Math.abs(2 * l - 1)) * s;
-  const x = c * (1 - Math.abs((h / 60) % 2 - 1));
-  const m = l - c / 2;
-
-  let r = 0;
-  let g = 0;
-  let b = 0;
-
-  if (h >= 0 && h < 60) {
-    r = c;
-    g = x;
-    b = 0;
-  } else if (h < 120) {
-    r = x;
-    g = c;
-    b = 0;
-  } else if (h < 180) {
-    r = 0;
-    g = c;
-    b = x;
-  } else if (h < 240) {
-    r = 0;
-    g = x;
-    b = c;
-  } else if (h < 300) {
-    r = x;
-    g = 0;
-    b = c;
-  } else {
-    r = c;
-    g = 0;
-    b = x;
-  }
-
-  const toHex = (n) =>
-    Math.round((n + m) * 255)
-      .toString(16)
-      .padStart(2, "0");
-
-  return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
-}
-
-function generateTheme() {
-  const hue = randomInt(0, 359);
-  const accentHue = (hue + randomInt(120, 220)) % 360;
-  const titleHue = (accentHue + randomInt(-35, 35) + 360) % 360;
-
-  const bgLightness = randomInt(9, 16);
-  const cardLightness = clamp(bgLightness + randomInt(7, 11), 18, 30);
-  const hoverLightness = clamp(cardLightness + randomInt(4, 7), 24, 38);
-  const borderLightness = clamp(cardLightness + randomInt(8, 14), 28, 46);
-
-  const saturation = randomInt(35, 70);
-  const accentSaturation = randomInt(70, 95);
-  const titleSaturation = randomInt(75, 100);
-
-  return {
-    bg: hslToHex(hue, saturation, bgLightness),
-    card: hslToHex(hue, saturation, cardLightness),
-    cardHover: hslToHex(hue, saturation, hoverLightness),
-    text: hslToHex(hue, 35, 96),
-    muted: hslToHex(hue, 22, 74),
-    accent: hslToHex(accentHue, accentSaturation, randomInt(60, 72)),
-    titleColor: hslToHex(titleHue, titleSaturation, randomInt(58, 72)),
-    border: hslToHex(hue, Math.max(25, saturation - 10), borderLightness)
-  };
-}
-
-function applyTheme(theme) {
-  const root = document.documentElement;
-  root.style.setProperty("--bg", theme.bg);
-  root.style.setProperty("--card", theme.card);
-  root.style.setProperty("--card-hover", theme.cardHover);
-  root.style.setProperty("--text", theme.text);
-  root.style.setProperty("--muted", theme.muted);
-  root.style.setProperty("--accent", theme.accent);
-  root.style.setProperty("--title-color", theme.titleColor);
-  root.style.setProperty("--border", theme.border);
-}
-
-function resetTheme() {
-  const root = document.documentElement;
-  root.style.removeProperty("--bg");
-  root.style.removeProperty("--card");
-  root.style.removeProperty("--card-hover");
-  root.style.removeProperty("--text");
-  root.style.removeProperty("--muted");
-  root.style.removeProperty("--accent");
-  root.style.removeProperty("--title-color");
-  root.style.removeProperty("--border");
-}
-
-function randomTheme() {
-  applyTheme(generateTheme());
-}
-
-function openModal(embedUrl, title = "Flashcards") {
-  modalTitle.textContent = title;
-  iframe.src = embedUrl;
-  modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
-}
-
-function closeModal() {
-  modal.style.display = "none";
-  iframe.src = "";
-  document.body.style.overflow = "";
-}
-
-window.openModal = openModal;
-
-if (closeBtn) {
-  closeBtn.addEventListener("click", closeModal);
-}
-
-if (modal) {
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-  });
-}
-
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeModal();
-});
-
-if (themeRandomizer) {
-  themeRandomizer.addEventListener("click", randomTheme);
-}
+/* ---------- views ---------- */
+const row = (x) => `<div class="unit${S.done[key(x.s, x.i)] ? " done" : ""}" style="--h:${hue(x.si)}" tabindex="0" role="button" data-open="${key(x.s, x.i)}"><span class="n"><span>${x.i + 1}</span></span><span class="t">${x.t}<small>${split(x.s.name).name}</small></span><span class="go">›</span></div>`;
+const bar = (d, n) => `<span class="bar"><i style="width:${n ? (d / n) * 100 : 0}%"></i></span>`;
 
 function renderHome() {
-  const tiles = SUBJECTS.map((s) => {
-    const count = s.units.length;
-    return `
-      <a class="card" href="#/subject/${s.id}">
-        ${s.name}
-        <div style="font-size:14px;color:var(--muted);margin-top:4px;">
-          ${count} Unit${count === 1 ? "" : "s"}
-        </div>
-      </a>
-    `;
-  }).join("");
-
-  home.innerHTML = `
-    <h2 style="margin-top:40px;font-weight:800;color:var(--title-color);">Select a Subject</h2>
-    <div class="grid">${tiles}</div>
-  `;
-
-  show(home);
-}
-
-function renderSubject(id) {
-  const subject = SUBJECTS.find((s) => s.id === id);
-
-  if (!subject) {
-    location.hash = "#/";
+  const q = search.value.trim().toLowerCase();
+  if (q) {
+    const r = ALL.filter((x) => (x.t + " " + split(x.s.name).name).toLowerCase().includes(q));
+    home.innerHTML = `<h2 class="h2">${r.length} deck${r.length === 1 ? "" : "s"} found</h2><div class="units">${r.map(row).join("") || `<p class="muted">Nothing matches that search yet.</p>`}</div>`;
     return;
   }
-
-  const unitsHTML = subject.units.length
-    ? subject.units
-        .map((u, i) => {
-          const url = u.embed;
-          const title = u.title ?? `Unit ${i + 1}`;
-          return `
-          <div class="unit" onclick="openModal('${escapeAttr(url)}','${escapeAttr(title)}')">
-            <div class="unit-title">${title}</div>
-            <p style="color:var(--muted);font-size:14px;margin:6px 0 0;">Click to open flashcards</p>
-          </div>
-        `;
-        })
-        .join("")
-    : `<p style="color:var(--muted);font-size:16px;text-align:center;">No units yet for ${subject.name}.</p>`;
-
-  subjectView.innerHTML = `
-    <div class="toolbar">
-      <a href="#/" class="btn">← Back</a>
-      <h2 style="margin:0;color:var(--title-color);font-weight:800;">${subject.name}</h2>
-    </div>
-    <div class="units">${unitsHTML}</div>
-  `;
-
-  show(subjectView);
+  const last = S.last && find(S.last), done = Object.keys(S.done).length;
+  home.innerHTML = `<div class="hero"><h1>Flashcards for every AP exam</h1>
+    <p class="muted">${SUBJECTS.length} subjects · ${ALL.length} decks · ${done} studied</p>
+    <div class="cta">${last ? `<button class="btn pri" data-open="${S.last}">Continue: ${last.t}</button>` : ""}<button class="btn" id="surprise">Surprise me</button></div></div>
+    <div class="grid">${SUBJECTS.map((s, i) => {
+      const { name, emoji } = split(s.name), n = s.units.length, d = doneIn(s);
+      return `<a class="card" style="--h:${hue(i)}" href="#/subject/${s.id}"><span class="emoji">${emoji}</span><b>${name}</b><small>${n} deck${n === 1 ? "" : "s"} · ${d} studied</small>${bar(d, n)}</a>`;
+    }).join("")}</div>`;
 }
 
-function route() {
-  const hash = location.hash.slice(1);
-
-  if (!hash || hash === "/") {
-    renderHome();
-    return;
-  }
-
-  const parts = hash.split("/").filter(Boolean);
-
-  if (parts[0] === "subject" && parts[1]) {
-    renderSubject(parts[1]);
-    return;
-  }
-
-  renderHome();
+function renderSubject(s) {
+  const si = SUBJECTS.indexOf(s), { name, emoji } = split(s.name), n = s.units.length, d = doneIn(s);
+  sub.innerHTML = `<a class="btn" href="#/">← All subjects</a>
+    <div class="shead" style="--h:${hue(si)}"><span class="emoji">${emoji}</span><div><h2 class="h2">${name}</h2><small>${d} of ${n} studied</small>${bar(d, n)}</div></div>
+    <div class="units" style="--h:${hue(si)}">${s.units.map((u, i) => row({ s, si, u, i, t: title(u, i) })).join("") || `<p class="muted">No decks yet.</p>`}</div>`;
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  if (modal) modal.style.display = "none";
-  resetTheme();
-  route();
+function view() {
+  const p = location.hash.split("/"), s = p[1] === "subject" && SUBJECTS.find((x) => x.id === p[2]);
+  home.hidden = !!s; sub.hidden = !s; $("#ios").hidden = !!s;
+  s ? renderSubject(s) : renderHome();
+}
+const render = () => { view(); scrollTo(0, 0); };
+
+/* ---------- study modal ---------- */
+let cur = null;
+function open(k) {
+  const x = find(k); if (!x) return;
+  cur = x; S.last = k; save();
+  $("#modal-title").textContent = x.s.name + " · " + x.t;
+  $("#mark").textContent = S.done[k] ? "✓ Studied" : "Mark studied";
+  frame.src = x.u.embed;
+  modal.classList.add("show");
+  document.body.style.overflow = "hidden";
+}
+function close() {
+  if (!modal.classList.contains("show")) return;
+  modal.classList.remove("show"); frame.src = ""; document.body.style.overflow = ""; view();
+}
+function step(d) {
+  const n = ALL[ALL.indexOf(cur) + d];
+  if (n && n.s === cur.s) open(key(n.s, n.i));
+}
+
+/* ---------- events ---------- */
+document.addEventListener("click", (e) => {
+  const o = e.target.closest("[data-open]"), t = e.target.closest("[data-t]");
+  if (o) open(o.dataset.open);
+  else if (t) applyTheme(THEMES[t.dataset.t]);
+  else if (e.target.closest("#shuffle")) shuffleTheme();
+  else if (e.target.closest("#surprise")) { const r = ALL[(Math.random() * ALL.length) | 0]; open(key(r.s, r.i)); }
+  else if (e.target === modal) close();
+  if (!e.target.closest("#theme-btn, #theme-pop")) pop.classList.remove("open");
 });
-
-window.addEventListener("hashchange", route);
+$("#theme-btn").addEventListener("click", () => pop.classList.toggle("open"));
+$("#close-modal").addEventListener("click", close);
+$("#prev").addEventListener("click", () => step(-1));
+$("#next").addEventListener("click", () => step(1));
+$("#mark").addEventListener("click", () => {
+  const k = key(cur.s, cur.i);
+  S.done[k] ? delete S.done[k] : (S.done[k] = 1);
+  save(); $("#mark").textContent = S.done[k] ? "✓ Studied" : "Mark studied";
+});
+search.addEventListener("input", () => (home.hidden ? (location.hash = "#/") : renderHome()));
+search.addEventListener("keydown", (e) => { if (e.key === "Enter") { const f = $("#view-home .unit"); if (f) open(f.dataset.open); } });
+document.addEventListener("keydown", (e) => {
+  const typing = /INPUT|TEXTAREA/.test(document.activeElement.tagName);
+  if (e.key === "Escape") { close(); pop.classList.remove("open"); }
+  else if (modal.classList.contains("show")) { if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1); }
+  else if (e.key === "/" && !typing) { e.preventDefault(); search.focus(); }
+  else if (e.key === "Enter" && e.target.dataset.open) open(e.target.dataset.open);
+});
+addEventListener("hashchange", render);
+render();
