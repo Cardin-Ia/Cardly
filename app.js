@@ -55,7 +55,7 @@ function renderHome() {
     return;
   }
   const last = S.last && find(S.last), done = Object.keys(S.done).length;
-  home.innerHTML = `<div class="hero"><h1>Flashcards for every AP exam</h1>
+  home.innerHTML = `<div class="hero"><h1>Flashcards for AP exams</h1>
     <p class="muted">${SUBJECTS.length} subjects · ${ALL.length} decks · ${done} studied</p>
     <div class="cta">${last ? `<button class="btn pri" data-open="${S.last}">Continue: ${last.t}</button>` : ""}<button class="btn" id="surprise">Surprise me</button></div></div>
     <div class="grid">${SUBJECTS.map((s, i) => {
